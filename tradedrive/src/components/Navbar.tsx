@@ -89,7 +89,7 @@ export default function Navbar() {
         <AppBar
           position="fixed" // Changed to fixed to stay visible on scroll
           sx={{
-            background: "linear-gradient(45deg, #0a0a1a, #1a1a2a)",
+            background: "linear-gradient(45deg,rgb(0, 0, 0),rgb(2, 2, 3))",
             transition: "all 0.3s ease-in-out",
             top: "10px", // Gap from the top
             width: "90%", // Reduce width to create side gaps

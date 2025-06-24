@@ -83,25 +83,24 @@ export default function Sec3() {
         </Button>
       </Box>
 
-      {/* Right Column - Larger Image */}
+      {/* Right Column - Responsive Image */}
       <Box
         sx={{
           flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          width: '100%',
+          maxWidth: { xs: '100%', sm: '90%', md: '500px' },
+          height: { xs: 300, sm: 400, md: 600 },
+          position: 'relative',
+          mx: 'auto',
         }}
       >
         <Image
           src={sprayImage}
           alt="Car Painter"
-          width={500} // Increased width
-          height={600} // Increased height
+          fill
           style={{
-            borderRadius: 12,
             objectFit: 'cover',
-            maxWidth: '150%',
-            height: 'auto',
+            borderRadius: 12,
           }}
         />
       </Box>
