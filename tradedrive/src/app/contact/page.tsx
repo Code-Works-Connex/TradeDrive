@@ -1,8 +1,14 @@
-export default function Contact() {
+import React from 'react'
+import Sec1 from '../../components/ContactUs/Sec1' 
+import Sec2 from '../../components/ContactUs/Sec2'
+
+
+export default function page() {
   return (
     <div>
-      <h1>Contact Us</h1>
-      <p>Contact information and form.</p>
+      <Sec1 />
+      <Sec2 />
+  
     </div>
-  );
+  )
 }
