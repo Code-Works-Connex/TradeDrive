@@ -13,36 +13,44 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Image from 'next/image';
-
-import img1 from '../../../public/images/img1.png';
-import img2 from '../../../public/images/img2.png';
-import img3 from '../../../public/images/img3.png';
 
 const articles = [
   {
-    title: 'CAR BODY POLISH MAKES IT LOOK LIKE NEW!',    
-    image: img1,
-    youtubeUrl: 'https://www.youtube.com/embed/Tw6D2YrVoFU?si=8lF3ZBpDDzrUyLaz',
+    title: 'CAR BODY POLISH MAKES IT LOOK LIKE NEW!',
+    youtubeUrl: 'https://youtu.be/k0oMa2jWXaM?si=b3It8dIGR19rIu-2',
   },
   {
     title: 'SEALING HEADLIGHTS AFTER A POLISH WITH A FILM',
-    image: img2,
-    youtubeUrl: 'https://www.youtube.com/embed/Tw6D2YrVoFU?si=8lF3ZBpDDzrUyLaz',
+    youtubeUrl: 'https://youtu.be/OHsv4xmTAxQ?si=dXP1F7wYV9lP776i',
   },
   {
-    title: 'THE BEST SOAP AND WAX TO COVER YOUR CAR WITH',    
-    image: img3,
-    youtubeUrl: 'https://www.youtube.com/embed/Tw6D2YrVoFU?si=8lF3ZBpDDzrUyLaz',
+    title: 'THE BEST SOAP AND WAX TO COVER YOUR CAR WITH',
+    youtubeUrl: 'https://www.youtube.com/watch?v=k0oMa2jWXaM',
   },
 ];
+
+// Extract YouTube video ID from any standard YouTube URL
+const getVideoId = (url: string): string => {
+  const match = url.match(/(?:v=|\/videos\/|embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match?.[1] || '';
+};
+
+const getYouTubeThumbnail = (url: string): string => {
+  const videoId = getVideoId(url);
+  return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+};
+
+const getEmbedUrl = (url: string): string => {
+  const videoId = getVideoId(url);
+  return `https://www.youtube.com/embed/${videoId}`;
+};
 
 export default function Sec9() {
   const [open, setOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState('');
 
   const handleOpen = (url: string) => {
-    setSelectedVideo(url);
+    setSelectedVideo(getEmbedUrl(url));
     setOpen(true);
   };
 
@@ -53,10 +61,7 @@ export default function Sec9() {
 
   return (
     <Box sx={{ backgroundColor: '#222', py: 8, px: { xs: 2, sm: 4, md: 10 } }}>
-      <Typography
-        variant="subtitle1"
-        sx={{ textAlign: 'center', color: 'gray', mb: 1 }}
-      >
+      <Typography variant="subtitle1" sx={{ textAlign: 'center', color: 'gray', mb: 1 }}>
         OUR NEWS
       </Typography>
       <Typography
@@ -97,17 +102,18 @@ export default function Sec9() {
               mx: 'auto',
             }}
           >
-            <Box sx={{ position: 'relative', width: '100%', height: 200 }}>
-              <Image
-                src={article.image}
-                alt={article.title}
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </Box>
+            <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                height: 200,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundImage: `url(${getYouTubeThumbnail(article.youtubeUrl)})`,
+              }}
+            />
 
             <CardContent sx={{ px: 2, pt: 2 }}>
-              
               <Typography
                 variant="body1"
                 sx={{ fontWeight: 700, fontSize: { xs: '1rem', sm: '1.05rem' } }}
