@@ -8,7 +8,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 // Import the provided images (adjust paths based on your project structure)
 import backgroundImage1 from "../../../public/images/homepageBanner.jpg";
-import backgroundImage2 from "../../../public/images/homepageBanner1.jpg"; // Replace with your second image path
+import backgroundImage2 from "../../../public/images/homepageBanner1.jpg"; 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";

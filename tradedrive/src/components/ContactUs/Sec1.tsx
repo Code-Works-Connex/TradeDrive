@@ -11,7 +11,7 @@ export default function Sec1() {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '50vh', md: '60vh' },
+        height: { xs: '50vh', md: '80vh' },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
