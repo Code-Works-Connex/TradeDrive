@@ -23,7 +23,7 @@ import miniValetImg from '../../../public/images/imagesection3.png';
 const MotionBox = motion(Box);
 
 export default function Sec3() {
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedService, setSelectedService] = useState<'FULL VALET' | 'ADD-ONS' | 'MINI VALET' | null>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -157,7 +157,7 @@ export default function Sec3() {
               flex: 1,
               maxWidth: { xs: '100%', md: '30%' },
               textAlign: 'center',
-              cursor: service.onClick ? 'pointer' : 'default',
+              cursor: 'pointer',
             }}
           >
             <Box
