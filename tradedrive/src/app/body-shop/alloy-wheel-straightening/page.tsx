@@ -1,8 +1,13 @@
+import Sec1 from '@/components/AlloyWheelStraightening/Sec1'
+import Sec2 from '@/components/AlloyWheelStraightening/Sec2'
+import Sec3 from '@/components/AlloyWheelStraightening/Sec3'
 export default function AlloyWheelStraightening() {
   return (
-    <div>
-      <h1>Alloy Wheel Straightening</h1>
-      <p>Details about alloy wheel straightening services.</p>
-    </div>
+    <>
+    <Sec1/>
+    <Sec2/>
+    <Sec3/>
+    </>
+    
   );
 }
