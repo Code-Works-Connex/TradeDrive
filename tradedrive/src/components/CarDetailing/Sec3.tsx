@@ -11,6 +11,7 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
+  Divider,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,17 +23,17 @@ import miniValetImg from '../../../public/images/imagesection3.png';
 const MotionBox = motion(Box);
 
 export default function Sec3() {
-  const [open, setOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const services = [
-    { title: 'FULL VALET', image: fullValetImg, onClick: () => setOpen(true) },
-    { title: 'ADD-ONS', image: addOnsImg },
-    { title: 'MINI VALET', image: miniValetImg },
+    { title: 'FULL VALET', image: fullValetImg, onClick: () => setSelectedService('FULL VALET') },
+    { title: 'ADD-ONS', image: addOnsImg, onClick: () => setSelectedService('ADD-ONS') },
+    { title: 'MINI VALET', image: miniValetImg, onClick: () => setSelectedService('MINI VALET') },
   ];
 
-  const exterior = [
+  const fullValetExterior = [
     'Wheels, Arches & Tyres Cleaned',
     'Pre Wash and Shampoo',
     'Snow Foam',
@@ -47,7 +48,7 @@ export default function Sec3() {
     'Hand Polish and Wax Applied',
   ];
 
-  const interior = [
+  const fullValetInterior = [
     'Rubbish Removal',
     'Interior Vacuum',
     'Interior Surfaces Cleaned',
@@ -58,6 +59,77 @@ export default function Sec3() {
     'Paper Protection Mats',
     'Air Freshener',
   ];
+
+  const miniValetExterior = [
+    'Wheels, Arches & Tyres Cleaned',
+    'Pre Wash and Shampoo',
+    'Snow Foam',
+    'Premium Drying Process',
+    'Tyre Dressing Applied',
+    'Glass Polished',
+    'Safe 2 Bucket Method',
+    'Spray Wax Coating',
+    'Door Shuts Cleaned',
+  ];
+
+  const miniValetInterior = [
+    'Rubbish Removal',
+    'Interior Vacuum',
+    'Interior Surfaces Cleaned',
+    'Pedals and Controls Cleaned',
+    'Fresh Scent',
+    'Glass Polished',
+  ];
+
+  const addOns = [
+    {
+      title: 'PAINT CORRECTION (3 Stage Machine Polish)',
+      description: 'We aim to remove any swirls and minor scratches and restore the deep gloss. Can only be added to the Full Valet.',
+      price: '£300',
+    },
+    {
+      title: 'PAINT CORRECTION (1 Step Machine Polish)',
+      description: 'Removing any light imperfections from the paintwork and increasing the deep gloss. Can only be added to the Full Valet.',
+      price: '£95',
+    },
+    {
+      title: 'CERAMIC COATING (12 Months Protection)',
+      description: '',
+      price: '£80',
+    },
+    {
+      title: 'CERAMIC COATING (3 Years Protection)',
+      description: '',
+      price: '£225',
+    },
+    {
+      title: 'ENGINE BAY CLEANING',
+      description: '',
+      price: '£30',
+    },
+    {
+      title: 'SEATS DEEP CLEANED',
+      description: 'Wet vac & steamed',
+      price: '£25',
+    },
+    {
+      title: 'FABRIC/LEATHER PROTECTION',
+      description: '',
+      price: '£55',
+    },
+    {
+      title: 'WHEEL REMOVAL AND CERAMIC COATING',
+      description: '',
+      price: '£140',
+    },
+    {
+      title: 'AIR CON DEODORISING',
+      description: '',
+      price: '£20',
+    },
+  ];
+
+  const handleClose = () => setSelectedService(null);
 
   return (
     <>
@@ -114,76 +186,245 @@ export default function Sec3() {
         ))}
       </Box>
 
-      {/* Modal with split content */}
       <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        maxWidth="md"
+        open={!!selectedService}
+        onClose={handleClose}
+        maxWidth="lg"
         fullWidth
         PaperProps={{
           sx: {
-            background: '#111',
+            background: 'linear-gradient(145deg, #1a1a1a, #111)',
             color: '#fff',
-            borderRadius: 2,
-            px: 2,
+            borderRadius: 3,
+            boxShadow: '0px 8px 30px rgba(0,0,0,0.5)',
+            p: { xs: 2, sm: 4 },
+            m: { xs: 1, sm: 2 },
           },
         }}
       >
-        <DialogContent>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h6" fontWeight="bold">
-              FULL VALET
+        <DialogContent sx={{ p: 0 }}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} px={3}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{ color: '#fff', letterSpacing: '0.05em' }}
+            >
+              {selectedService}
             </Typography>
-            <IconButton onClick={() => setOpen(false)} sx={{ color: '#fff' }}>
+            <IconButton onClick={handleClose} sx={{ color: '#fff' }} aria-label="Close modal">
               <CloseIcon />
             </IconButton>
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              gap: 4,
-            }}
-          >
-            {/* Exterior */}
-            <Box flex={1}>
-              <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                EXTERIOR
-              </Typography>
-              <List dense>
-                {exterior.map((item, idx) => (
-                  <ListItem key={idx} disableGutters>
-                    <ListItemText
-                      primary={`• ${item}`}
-                      primaryTypographyProps={{ fontSize: '0.95rem' }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
+          {selectedService === 'FULL VALET' ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: 4,
+                px: 3,
+              }}
+            >
+              <Box flex={1}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{ color: '#ffd700' }}
+                >
+                  EXTERIOR
+                </Typography>
+                <Divider sx={{ bgcolor: '#444', mb: 2 }} />
+                <List dense>
+                  {fullValetExterior.map((item, idx) => (
+                    <ListItem key={idx} disableGutters>
+                      <ListItemText
+                        primary={`• ${item}`}
+                        primaryTypographyProps={{
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          color: '#e0e0e0',
+                          lineHeight: 1.6,
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
 
-            {/* Interior */}
-            <Box flex={1}>
-              <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                INTERIOR
-              </Typography>
-              <List dense>
-                {interior.map((item, idx) => (
-                  <ListItem key={idx} disableGutters>
-                    <ListItemText
-                      primary={`• ${item}`}
-                      primaryTypographyProps={{ fontSize: '0.95rem' }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
+              <Box flex={1}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{ color: '#ffd700' }}
+                >
+                  INTERIOR
+                </Typography>
+                <Divider sx={{ bgcolor: '#444', mb: 2 }} />
+                <List dense>
+                  {fullValetInterior.map((item, idx) => (
+                    <ListItem key={idx} disableGutters>
+                      <ListItemText
+                        primary={`• ${item}`}
+                        primaryTypographyProps={{
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          color: '#e0e0e0',
+                          lineHeight: 1.6,
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
             </Box>
-          </Box>
+          ) : selectedService === 'MINI VALET' ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: 4,
+                px: 3,
+              }}
+            >
+              <Box flex={1}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{ color: '#ffd700' }}
+                >
+                  EXTERIOR
+                </Typography>
+                <Divider sx={{ bgcolor: '#444', mb: 2 }} />
+                <List dense>
+                  {miniValetExterior.map((item, idx) => (
+                    <ListItem key={idx} disableGutters>
+                      <ListItemText
+                        primary={`• ${item}`}
+                        primaryTypographyProps={{
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          color: '#e0e0e0',
+                          lineHeight: 1.6,
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
 
-          <Typography sx={{ mt: 3, fontWeight: 600, textAlign: 'center' }}>
-            Starting at £85
-          </Typography>
+              <Box flex={1}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{ color: '#ffd700' }}
+                >
+                  INTERIOR
+                </Typography>
+                <Divider sx={{ bgcolor: '#444', mb: 2 }} />
+                <List dense>
+                  {miniValetInterior.map((item, idx) => (
+                    <ListItem key={idx} disableGutters>
+                      <ListItemText
+                        primary={`• ${item}`}
+                        primaryTypographyProps={{
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          color: '#e0e0e0',
+                          lineHeight: 1.6,
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Box>
+          ) : selectedService === 'ADD-ONS' ? (
+            <Box px={3}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                gutterBottom
+                sx={{ color: '#ffd700' }}
+              >
+                ADD-ONS
+              </Typography>
+              <Divider sx={{ bgcolor: '#444', mb: 3 }} />
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: {
+                    xs: '1fr',
+                    sm: 'repeat(2, 1fr)',
+                    md: 'repeat(3, 1fr)',
+                  },
+                  gap: 3,
+                }}
+              >
+                {addOns.map((item, idx) => (
+                  <Box
+                    key={idx}
+                    sx={{
+                      background: 'rgba(255,255,255,0.05)',
+                      borderRadius: 2,
+                      p: 2,
+                      transition: 'transform 0.2s',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        background: 'rgba(255,255,255,0.1)',
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontWeight: 'bold',
+                        fontSize: { xs: '1rem', sm: '1.1rem' },
+                        color: '#fff',
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    {item.description && (
+                      <Typography
+                        sx={{
+                          fontSize: { xs: '0.9rem', sm: '1rem' },
+                          color: '#b0b0b0',
+                          mt: 1,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {item.description}
+                      </Typography>
+                    )}
+                    <Typography
+                      sx={{
+                        fontSize: { xs: '1rem', sm: '1.1rem' },
+                        fontWeight: 600,
+                        color: '#ffd700',
+                        mt: 1,
+                      }}
+                    >
+                      Starting at {item.price}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          ) : null}
+
+          {(selectedService === 'FULL VALET' || selectedService === 'MINI VALET') && (
+            <Typography
+              sx={{
+                mt: 4,
+                fontWeight: 600,
+                fontSize: { xs: '1.2rem', sm: '1.3rem' },
+                textAlign: 'center',
+                color: '#ffd700',
+              }}
+            >
+              Starting at {selectedService === 'FULL VALET' ? '£85' : '£40'}
+            </Typography>
+          )}
         </DialogContent>
       </Dialog>
     </>
