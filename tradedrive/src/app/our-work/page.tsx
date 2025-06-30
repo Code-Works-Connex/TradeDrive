@@ -1,8 +1,13 @@
-export default function OurWork() {
-  return (
-    <div>
-      <h1>Our Work</h1>
-      <p>Showcase of our completed projects.</p>
-    </div>
-  );
+import React from 'react'
+import Sec1 from '../../components/OurWork/Sec1'
+
+
+export default function Sec2() {
+    return (
+        <div>
+            <Sec1 />
+
+
+        </div>
+    )
 }
