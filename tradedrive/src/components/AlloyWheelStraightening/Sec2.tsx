@@ -6,7 +6,6 @@ import wheelIcon from "../../../public/images/alloyWheel/wheel-icon.png";
 import gearIcon from "../../../public/images/alloyWheel/gear-icon.png";
 import sprayIcon from "../../../public/images/alloyWheel/spray-icon.png";
 
-
 const services = [
   {
     icon: wheelIcon,
@@ -60,7 +59,7 @@ export default function Home() {
         sx={{ px: { md: "150px", xs: "10px", color:'gray' } }}
       >
         From minor cosmetic damage to complete restoration, Alloy Wheel Repair
-        Specialists offers professional and affordable alloy rim repair. We can
+        Specialists offers professional and <span color="black">affordable alloy rim repair.</span>  We can
         straighten and refinish wheels with the custom color of your choice. If
         your rims are beyond repair, we have access to the best-quality OEM
         replacements.
