@@ -12,16 +12,36 @@ import {
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation'; // ✅ Import useRouter for client navigation
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 import image1 from '../../../public/images/imagedent1.jpg';
 import image2 from '../../../public/images/imagedent2.jpg';
 
 export default function Sec4() {
-  const router = useRouter(); // ✅ Initialize router
+  const router = useRouter();
 
   const handleContactClick = () => {
-    router.push('/contact'); // ✅ Redirect to your Contact Us page
+    router.push('/contact');
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.2 + i * 0.2 },
+    }),
   };
 
   return (
@@ -35,66 +55,75 @@ export default function Sec4() {
         px: { xs: 2, sm: 4, md: 10 },
         py: { xs: 4, md: 8 },
         bgcolor: '#fff',
+        overflow: 'hidden',
       }}
     >
       {/* Left side images */}
-      <Box
-        sx={{
-          position: 'relative',
-          width: { xs: '100%', md: '50%' },
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          minHeight: 380,
-        }}
+      <motion.div
+        variants={imageVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        style={{ width: '100%', maxWidth: '50%' }}
       >
         <Box
           sx={{
-            width: { xs: '100%', sm: '80%', md: '80%' },
-            height: { xs: 300, sm: 350 },
             position: 'relative',
-            borderRadius: 2,
-            overflow: 'hidden',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            minHeight: 380,
           }}
         >
-          <Image
-            src={image1}
-            alt="Paint worker"
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
-        </Box>
+          <Box
+            sx={{
+              width: { xs: '100%', sm: '80%', md: '80%' },
+              height: { xs: 300, sm: 350 },
+              position: 'relative',
+              borderRadius: 2,
+              overflow: 'hidden',
+            }}
+          >
+            <Image
+              src={image1}
+              alt="Paint worker"
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+          </Box>
 
-        <Box
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            position: 'absolute',
-            bottom: -30,
-            left: '50%',
-            width: '50%',
-            height: 240,
-            boxShadow: 4,
-            borderRadius: 2,
-            overflow: 'hidden',
-          }}
-        >
-          <Image
-            src={image2}
-            alt="Sanding worker"
-            layout="fill"
-            objectFit="cover"
-          />
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              position: 'absolute',
+              bottom: -30,
+              left: '50%',
+              width: '50%',
+              height: 240,
+              boxShadow: 4,
+              borderRadius: 2,
+              overflow: 'hidden',
+            }}
+          >
+            <Image
+              src={image2}
+              alt="Sanding worker"
+              layout="fill"
+              objectFit="cover"
+            />
+          </Box>
         </Box>
-      </Box>
+      </motion.div>
 
       {/* Right side content */}
-      <Box
-        sx={{
-          width: { xs: '100%', md: '45%' },
-          textAlign: { xs: 'center', md: 'left' },
-          mt: { md: 0 },
-        }}
+      <motion.div
+        variants={textVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        style={{ width: '100%', maxWidth: '45%' }}
       >
         <Typography
           variant="caption"
@@ -102,6 +131,7 @@ export default function Sec4() {
             fontWeight: 600,
             color: '#333',
             textTransform: 'uppercase',
+            textAlign: { xs: 'center', md: 'left' },
           }}
         >
           WE CAN FIX IT
@@ -115,6 +145,7 @@ export default function Sec4() {
             mb: 2,
             color: '#000',
             lineHeight: 1.2,
+            textAlign: { xs: 'center', md: 'left' },
           }}
         >
           WE CAN HELP WITH A COLLISION REPAIR
@@ -125,6 +156,7 @@ export default function Sec4() {
             color: '#666',
             mb: 3,
             maxWidth: 500,
+            textAlign: { xs: 'center', md: 'left' },
             mx: { xs: 'auto', md: '0' },
           }}
         >
@@ -136,20 +168,28 @@ export default function Sec4() {
             'Adipiscing elit, sed do eiusmod',
             'Tempor incididunt',
             'Labore et dolore magna',
-          ].map((text, index) => (
-            <ListItem
-              key={index}
-              disableGutters
-              sx={{ justifyContent: { xs: 'center', md: 'flex-start' } }}
+          ].map((text, i) => (
+            <motion.div
+              key={i}
+              custom={i}
+              variants={listItemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
-              <ListItemIcon sx={{ minWidth: '32px', color: 'orange' }}>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
-                primaryTypographyProps={{ color: '#333' }}
-              />
-            </ListItem>
+              <ListItem
+                disableGutters
+                sx={{ justifyContent: { xs: 'center', md: 'flex-start' } }}
+              >
+                <ListItemIcon sx={{ minWidth: '32px', color: 'orange' }}>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  primaryTypographyProps={{ color: '#333' }}
+                />
+              </ListItem>
+            </motion.div>
           ))}
         </List>
 
@@ -168,12 +208,12 @@ export default function Sec4() {
                 backgroundColor: '#cc0000',
               },
             }}
-            onClick={handleContactClick} // ✅ Button click triggers navigation
+            onClick={handleContactClick}
           >
             Contact Us
           </Button>
         </Box>
-      </Box>
+      </motion.div>
     </Box>
   );
 }
