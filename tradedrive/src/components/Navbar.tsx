@@ -79,6 +79,7 @@ export default function Navbar() {
         { text: "MOT Check", href: "/services/mot-check" },
       ],
     },
+    { text: "Blogs", href: "/blogs" }, // ✅ New main nav link
     { text: "Our Work", href: "/our-work" },
     { text: "Contact Us", href: "/contact" },
   ];
@@ -87,25 +88,22 @@ export default function Navbar() {
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="fixed" // Changed to fixed to stay visible on scroll
+          position="fixed"
           sx={{
             background: "linear-gradient(45deg,rgb(0, 0, 0),rgb(2, 2, 3))",
             transition: "all 0.3s ease-in-out",
-            top: "10px", // Gap from the top
-            width: "90%", // Reduce width to create side gaps
+            top: "10px",
+            width: "90%",
             left: "50%",
-            transform: "translateX(-50%)", // Center the navbar
-           
+            transform: "translateX(-50%)",
           }}
         >
           <Toolbar
             sx={{
               justifyContent: { xs: "space-between", md: "flex-start" },
               alignItems: "center",
-           
             }}
           >
-            {/* Logo */}
             <Box sx={{ display: "flex", alignItems: "center", ml: { md: "5%" } }}>
               <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                 <Image
@@ -119,7 +117,6 @@ export default function Navbar() {
               </Link>
             </Box>
 
-            {/* Desktop Menu */}
             <Box
               sx={{
                 flexGrow: 1,
@@ -211,7 +208,6 @@ export default function Navbar() {
               ))}
             </Box>
 
-            {/* Contact Us Button */}
             <Box sx={{ display: { xs: "none", md: "flex" }, ml: "auto", mr: { md: "5%" } }}>
               <Button
                 component={Link}
@@ -231,7 +227,6 @@ export default function Navbar() {
               </Button>
             </Box>
 
-            {/* Mobile Menu Button */}
             <IconButton
               size="large"
               edge="end"
@@ -245,7 +240,6 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
 
-        {/* Mobile Drawer */}
         <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
           <Box
             sx={{

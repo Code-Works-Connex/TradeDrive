@@ -1,10 +1,11 @@
 'use client';
 
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import { motion } from 'framer-motion';
+import { motion, cubicBezier } from 'framer-motion';
 
 const features = [
   {
@@ -41,7 +42,14 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: cubicBezier(0.25, 0.1, 0.25, 1), // ✅ Fixed easing function
+    },
+  },
 };
 
 export default function Sec5() {
