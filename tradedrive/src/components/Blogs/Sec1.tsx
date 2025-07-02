@@ -10,10 +10,11 @@ import {
   DialogContent,
   IconButton,
   CircularProgress,
+  useMediaQuery,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { styled, keyframes } from '@mui/material/styles';
+import { styled, keyframes, useTheme } from '@mui/material/styles';
 import { API_ENDPOINTS } from '../../../src/api';
 
 type Article = {
@@ -36,20 +37,22 @@ const StyledCard = styled('div')(({ theme }) => ({
   borderRadius: '12px',
   overflow: 'hidden',
   cursor: 'pointer',
-  transition: 'box-shadow 0.3s ease',
+  transition: 'transform 0.3s ease',
   width: 300,
   boxShadow: 'none',
   margin: 'auto',
   animation: `${fadeIn} 0.5s ease-out`,
+  '&:hover': {
+    transform: 'scale(1.02)',
+  },
   [theme.breakpoints.down('sm')]: {
-    margin: '10px 0',
     width: '100%',
   },
 }));
 
 const Header = styled(Box)({
   background: 'linear-gradient(180deg, #1a1a1a 0%, #330000 100%)',
-  padding: '40px 0',
+  padding: '100px 0 60px',
   textAlign: 'center',
   color: '#ffffff',
   borderBottom: '3px solid #ff0000',
@@ -77,6 +80,8 @@ export default function Sec1() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState('');
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOpen = (url: string) => {
     const embedUrl = getEmbedUrl(url);
@@ -124,7 +129,6 @@ export default function Sec1() {
         <Typography
           variant="subtitle1"
           sx={{
-            textAlign: 'center',
             color: 'gray',
             mb: 1,
             fontFamily: 'Roboto, sans-serif',
@@ -136,10 +140,9 @@ export default function Sec1() {
         <Typography
           variant="h3"
           sx={{
-            textAlign: 'center',
             fontWeight: 'bold',
             color: 'white',
-            mb: 5,
+            mb: 0,
             fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             fontFamily: 'Roboto, sans-serif',
             letterSpacing: '2px',
@@ -154,7 +157,16 @@ export default function Sec1() {
           <CircularProgress sx={{ color: '#ff0000' }} />
         </Box>
       ) : (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4 }}>
+        <Box
+          sx={{
+            mt: 10,
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: articles.length <= 4 ? 2 : 4,
+            rowGap: articles.length <= 4 ? 3 : 5,
+          }}
+        >
           {articles.length === 0 ? (
             <Typography sx={{ color: 'white', textAlign: 'center' }}>
               No articles available
@@ -201,7 +213,7 @@ export default function Sec1() {
         </Box>
       )}
 
-      {/* Modal with YouTube video */}
+      {/* Video Modal */}
       <Dialog
         open={open}
         onClose={handleClose}
