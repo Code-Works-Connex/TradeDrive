@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import { useState, ChangeEvent, FormEvent } from 'react';
 import {
   Box,
   Button,
@@ -7,47 +8,165 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from "@mui/material";
+  Checkbox,
+  Alert,
+  CircularProgress,
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import EditIcon from '@mui/icons-material/Edit';
+import SendIcon from '@mui/icons-material/Send';
+import PhoneIcon from '@mui/icons-material/Phone';
+import wheelImage from '../../../public/images/alloyWheel/alloywheel3.png';
+import { API_ENDPOINTS, API_HOST } from '../../../src/api';
 
-import wheelImage from "../../../public/images/alloyWheel/alloywheel3.png";
+// Define categories array (only 'Alloy Wheel Rework' for this use case)
+const CATEGORIES = ['Alloy Wheel Rework'];
 
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import EditIcon from "@mui/icons-material/Edit";
-import SendIcon from "@mui/icons-material/Send";
-import PhoneIcon from "@mui/icons-material/Phone";
-import Checkbox from "@mui/material/Checkbox"; // Correct import for Checkbox
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  description: string;
+  category: string;
+  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  agree: boolean;
+}
+
+interface FormErrors {
+  name?: string;
+  phone?: string;
+  email?: string;
+  date?: string;
+  description?: string;
+  category?: string;
+  status?: string;
+  agree?: string;
+}
 
 export default function Home() {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    phone: '',
+    email: '',
+    date: '',
+    description: '',
+    category: 'Alloy Wheel Rework', // Default to 'Alloy Wheel Rework'
+    status: 'Pending',
+    agree: false,
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [success, setSuccess] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Handle form input changes
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+    setErrors((prev) => ({ ...prev, [name]: '' }));
+    setError('');
+    setSuccess('');
+  };
+
+  // Validate form
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!formData.agree) newErrors.agree = 'You must agree to data collection';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch(API_ENDPOINTS.booking, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          category: 'Alloy Wheel Rework', // Hardcode to 'Alloy Wheel Rework'
+          status: formData.status,
+          date: formData.date ? formData.date : null,
+          description: formData.description.trim() || null,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create booking');
+      }
+
+      setSuccess('Booking created successfully!');
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        date: '',
+        description: '',
+        category: 'Alloy Wheel Rework',
+        status: 'Pending',
+        agree: false,
+      });
+      setErrors({});
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        color: "#fff",
-        flexDirection: { xs: "column", md: "row" },
+        display: 'flex',
+        justifyContent: 'space-between',
+        color: '#fff',
+        flexDirection: { xs: 'column', md: 'row' },
       }}
     >
       {/* LEFT: Background section with overlay and text */}
       <Box
         sx={{
-          position: "relative",
+          position: 'relative',
           flex: 1,
-          minHeight: "60vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
+          minHeight: '60vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
         }}
       >
         {/* Background image */}
         <Box
           sx={{
-            position: "absolute",
+            position: 'absolute',
             inset: 0,
             backgroundImage: `url(${wheelImage.src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             zIndex: 1,
           }}
         />
@@ -55,9 +174,9 @@ export default function Home() {
         {/* Dark overlay */}
         <Box
           sx={{
-            position: "absolute",
+            position: 'absolute',
             inset: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.85)", // darker overlay
+            backgroundColor: 'rgba(0, 0, 0, 0.85)', // darker overlay
             zIndex: 2,
           }}
         />
@@ -65,11 +184,11 @@ export default function Home() {
         {/* Text Content */}
         <Box
           sx={{
-            position: "relative",
+            position: 'relative',
             zIndex: 3,
             p: { xs: 2, md: 2 },
             maxWidth: 600,
-            color: "#fff",
+            color: '#fff',
           }}
         >
           <Typography variant="h5" gutterBottom>
@@ -90,11 +209,11 @@ export default function Home() {
       <Box
         sx={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: '#fff',
           p: { xs: 3, md: 6 },
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
         }}
       >
         <Typography
@@ -102,9 +221,8 @@ export default function Home() {
           sx={{
             fontWeight: 700,
             mb: 3,
-            color: "#000",
-            textAlign: "left",
-            // backgroundColor: "#f0f0f0",
+            color: '#000',
+            textAlign: 'left',
             p: 1,
             borderRadius: 1,
           }}
@@ -112,127 +230,185 @@ export default function Home() {
           Book Now
         </Typography>
 
-        <TextField
-          fullWidth
-          variant="standard"
-          placeholder="Name"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PersonIcon sx={{ color: "#000" }} /> {/* Changed to black */}
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            mb: 2,
-            input: { color: "#000" }, // Changed to black
-            "& .MuiInput-underline:before": {
-              borderBottom: "1px solid #666",
-            },
-          }}
-        />
+        {/* Display success or error messages */}
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {success}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-        <TextField
-          fullWidth
-          variant="standard"
-          placeholder="Email"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon sx={{ color: "#000" }} /> {/* Changed to black */}
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            mb: 2,
-            input: { color: "#000" }, // Changed to black
-            "& .MuiInput-underline:before": {
-              borderBottom: "1px solid #666",
-            },
-          }}
-        />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            variant="standard"
+            placeholder="Name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            error={!!errors.name}
+            helperText={errors.name}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon sx={{ color: '#000' }} />
+                </InputAdornment>
+              ),
+            }}
+            InputLabelProps={{ style: { color: '#666' } }}
+            sx={{
+              mb: 2,
+              input: { color: '#000' },
+              '& .MuiInput-underline:before': {
+                borderBottom: '1px solid #666',
+              },
+            }}
+          />
 
-        <TextField
-          fullWidth
-          variant="standard"
-          placeholder="Phone"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PhoneIcon sx={{ color: "#000" }} /> {/* Changed to black */}
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            mb: 2,
-            input: { color: "#000" }, // Changed to black
-            "& .MuiInput-underline:before": {
-              borderBottom: "1px solid #666",
-            },
-          }}
-        />
+          <TextField
+            fullWidth
+            variant="standard"
+            placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon sx={{ color: '#000' }} />
+                </InputAdornment>
+              ),
+            }}
+            InputLabelProps={{ style: { color: '#666' } }}
+            sx={{
+              mb: 2,
+              input: { color: '#000' },
+              '& .MuiInput-underline:before': {
+                borderBottom: '1px solid #666',
+              },
+            }}
+          />
 
-        <TextField
-          fullWidth
-          variant="standard"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          sx={{
-            mb: 2,
-            input: { color: "#000" }, // Changed to black
-            "& .MuiInput-underline:before": {
-              borderBottom: "1px solid #666",
-            },
-          }}
-        />
+          <TextField
+            fullWidth
+            variant="standard"
+            placeholder="Phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            error={!!errors.phone}
+            helperText={errors.phone}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PhoneIcon sx={{ color: '#000' }} />
+                </InputAdornment>
+              ),
+            }}
+            InputLabelProps={{ style: { color: '#666' } }}
+            sx={{
+              mb: 2,
+              input: { color: '#000' },
+              '& .MuiInput-underline:before': {
+                borderBottom: '1px solid #666',
+              },
+            }}
+          />
 
-        <TextField
-          fullWidth
-          variant="standard"
-          placeholder="How can we help you?"
-          multiline
-          rows={2}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EditIcon sx={{ color: "#000" }} /> {/* Changed to black */}
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            mb: 2,
-            input: { color: "#000" }, // Changed to black
-            "& .MuiInput-underline:before": {
-              borderBottom: "1px solid #666",
-            },
-          }}
-        />
+          <TextField
+            fullWidth
+            variant="standard"
+            label="Booking Date"
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            error={!!errors.date}
+            helperText={errors.date}
+            InputLabelProps={{ style: { color: '#666' }, shrink: true }}
+            sx={{
+              mb: 2,
+              input: { color: '#000' },
+              '& .MuiInput-underline:before': {
+                borderBottom: '1px solid #666',
+              },
+            }}
+          />
 
-        <FormControlLabel
-          control={<Checkbox sx={{ color: "#000" }} />} // Changed to black
-          label={
-            <Typography sx={{ fontSize: "0.875rem", color: "#666" }}>
-              I agree that my data is collected and stored.
+          <TextField
+            fullWidth
+            variant="standard"
+            placeholder="How can we help you?"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            error={!!errors.description}
+            helperText={errors.description}
+            multiline
+            rows={2}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EditIcon sx={{ color: '#000' }} />
+                </InputAdornment>
+              ),
+            }}
+            InputLabelProps={{ style: { color: '#666' } }}
+            sx={{
+              mb: 2,
+              input: { color: '#000' },
+              '& .MuiInput-underline:before': {
+                borderBottom: '1px solid #666',
+              },
+            }}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="agree"
+                checked={formData.agree}
+                onChange={handleChange}
+                sx={{ color: '#000' }}
+              />
+            }
+            label={
+              <Typography sx={{ fontSize: '0.875rem', color: '#666' }}>
+                I agree that my data is collected and stored.
+              </Typography>
+            }
+            sx={{ mb: 2 }}
+          />
+          {errors.agree && (
+            <Typography sx={{ color: '#f44336', fontSize: '0.75rem', mb: 2 }}>
+              {errors.agree}
             </Typography>
-          }
-          sx={{ mb: 2 }}
-        />
+          )}
 
-        <Button
-          variant="contained"
-          color="error"
-          startIcon={<SendIcon />}
-          sx={{
-            textTransform: "none",
-            fontWeight: 600,
-            px: 4,
-            py: 1.5,
-            borderRadius: 0,
-            alignSelf: { xs: "center", md: "flex-start" },
-          }}
-        >
-          Get in Touch
-        </Button>
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SendIcon />}
+            type="submit"
+            disabled={loading}
+            sx={{
+              textTransform: 'none',
+              fontWeight: 600,
+              px: 4,
+              py: 1.5,
+              borderRadius: 0,
+              alignSelf: { xs: 'center', md: 'flex-start' },
+            }}
+          >
+            {loading ? 'Submitting...' : 'Get in Touch'}
+          </Button>
+        </form>
       </Box>
     </Box>
   );
