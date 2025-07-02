@@ -406,7 +406,7 @@ export default function Home() {
               alignSelf: { xs: 'center', md: 'flex-start' },
             }}
           >
-            {loading ? 'Submitting...' : 'Get in Touch'}
+            {loading ? 'Submitting...' : 'Book an Appointment'}
           </Button>
         </form>
       </Box>
