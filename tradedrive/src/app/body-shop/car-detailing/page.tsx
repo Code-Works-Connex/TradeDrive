@@ -10,10 +10,10 @@ export default function page() {
   return (
     <div>
       <Sec1 />
+      <Sec5 />
       <Sec2 />
       <Sec3 />
       <Sec4 />
-      <Sec5 />
     </div>
   )
 }

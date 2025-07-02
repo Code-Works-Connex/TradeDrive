@@ -1,19 +1,37 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { API_ENDPOINTS, API_HOST } from '../../../src/api';
 
-import bodywork1 from '../../../public/images/imagesection3.png';
-import bodywork2 from '../../../public/images/imagesection3.png';
-import bodywork3 from '../../../public/images/imagesection3.png';
-import bodywork4 from '../../../public/images/imagesection3.png';
+type GalleryImage = {
+  id: number;
+  url: string;
+  name: string;
+  order: number;
+};
 
 const Sec1 = () => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const [images, setImages] = useState<GalleryImage[]>([]);
 
-  const images = [bodywork1, bodywork2, bodywork3, bodywork4];
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch(API_ENDPOINTS.enabledGallery);
+        if (!res.ok) throw new Error('Failed to fetch gallery images');
+        const data = await res.json();
+        setImages(data.sort((a: GalleryImage, b: GalleryImage) => a.order - b.order));
+      } catch (error) {
+        console.error('❌ Error loading gallery:', error);
+        setImages([]);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   return (
     <Box
@@ -65,7 +83,7 @@ const Sec1 = () => {
         All our work is fully guaranteed and ensures you are delighted with the finish!
       </Typography>
 
-      {/* Image Grid using Box */}
+      {/* Dynamic Image Grid */}
       <Box
         sx={{
           display: 'grid',
@@ -79,37 +97,34 @@ const Sec1 = () => {
           mx: 'auto',
         }}
       >
-        {images.map((img, index) => (
+        {images.map((img) => (
           <Box
-            key={index}
+            key={img.id}
             sx={{
+              width: '100%',
+              maxWidth: 350, // ✅ Fixed width
+              height: 250, // ✅ Fixed height
               overflow: 'hidden',
               borderRadius: 2,
               boxShadow: 2,
               transition: 'transform 0.3s',
+              mx: 'auto',
               '&:hover': {
                 transform: 'scale(1.02)',
               },
             }}
           >
             <Image
-              src={img}
-              alt={`Bodywork ${index + 1}`}
-              width={400}
-              height={300}
+              src={`${API_HOST}${img.url}`}
+              alt={img.name}
+              width={350}
+              height={250}
               style={{
                 objectFit: 'cover',
-                width: '100%',
-                height: 'auto',
-                filter: 'grayscale(100%)',
+                // filter: 'grayscale(100%)',
                 transition: 'filter 0.3s ease',
               }}
-              onMouseOver={(e) => {
-                (e.currentTarget.style.filter = 'grayscale(0%)');
-              }}
-              onMouseOut={(e) => {
-                (e.currentTarget.style.filter = 'grayscale(100%)');
-              }}
+            
             />
           </Box>
         ))}

@@ -7,6 +7,7 @@ import img1 from "../../../public/images/alloyWheel/beforeAfter1.jpg";
 import img2 from "../../../public/images/alloyWheel/beforeAfter2.jpg";
 import img3 from "../../../public/images/alloyWheel/beforeAfter3.jpg"; // Add more images as needed
 import img4 from "../../../public/images/alloyWheel/beforeAfter4.jpeg"; // Add more images as needed
+import img5 from "../../../public/images/alloyWheel/beforeAfter5.jpeg"; // Add more images as needed
 
 export default function Home() {
   // State to manage the current slide index
@@ -29,6 +30,10 @@ export default function Home() {
     {
       image: img4,
       label: "before & after 4",
+    },
+    {
+      image: img5,
+      label: "before & after 5",
     },
   ];
 

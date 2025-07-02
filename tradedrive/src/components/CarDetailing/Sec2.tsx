@@ -12,30 +12,6 @@ export default function Sec2() {
         overflow: 'hidden',
       }}
     >
-      {/* Image Box - Hidden on mobile */}
-      <Box
-        sx={{
-          flex: 1,
-          display: { xs: 'none', md: 'block' },
-          position: 'relative',
-          height: '60vh',
-        }}
-      >
-        <img
-          src={detralingimg1.src}
-          alt="Car Wash"
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            top: 0,
-            left: 0,
-            zIndex: 0,
-          }}
-        />
-      </Box>
-
       {/* Text Section */}
       <Box
         sx={{
@@ -77,6 +53,31 @@ export default function Sec2() {
           </Typography>
         </Box>
       </Box>
+      {/* Image Box - Hidden on mobile */}
+      <Box
+        sx={{
+          flex: 1,
+          display: { xs: 'none', md: 'block' },
+          position: 'relative',
+          height: '60vh',
+        }}
+      >
+        <img
+          src={detralingimg1.src}
+          alt="Car Wash"
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            top: 0,
+            left: 0,
+            zIndex: 0,
+          }}
+        />
+      </Box>
+
+      
     </Box>
   );
 }
