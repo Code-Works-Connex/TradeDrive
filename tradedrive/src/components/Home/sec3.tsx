@@ -1,13 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useMediaQuery, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 import sprayImage from '../../../public/images/image5.png'; // painter image
 
 export default function Sec3() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md')); // true if screen is < md
+
   return (
     <Box
       sx={{
@@ -66,7 +69,11 @@ export default function Sec3() {
 
           <Typography
             variant="body1"
-            sx={{ maxWidth: 500, fontSize: { xs: '1rem', md: '1.15rem' }, lineHeight: 1.7 }}
+            sx={{
+              maxWidth: 500,
+              fontSize: { xs: '1rem', md: '1.15rem' },
+              lineHeight: 1.7,
+            }}
           >
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
             has been the industry's standard dummy text ever since the 1500s, when an unknown
@@ -92,34 +99,36 @@ export default function Sec3() {
         </Box>
       </motion.div>
 
-      {/* Right Column - Responsive Image */}
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-        style={{ flex: 1 }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            maxWidth: { xs: '100%', sm: '90%', md: '500px' },
-            height: { xs: 300, sm: 400, md: 600 },
-            position: 'relative',
-            mx: 'auto',
-          }}
+      {/* Right Column - Hidden on Mobile */}
+      {!isMobile && (
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.2 }}
+          style={{ flex: 1 }}
         >
-          <Image
-            src={sprayImage}
-            alt="Car Painter"
-            fill
-            style={{
-              objectFit: 'cover',
-              borderRadius: 12,
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: { xs: '100%', sm: '90%', md: '500px' },
+              height: { xs: 300, sm: 400, md: 600 },
+              position: 'relative',
+              mx: 'auto',
             }}
-          />
-        </Box>
-      </motion.div>
+          >
+            <Image
+              src={sprayImage}
+              alt="Car Painter"
+              fill
+              style={{
+                objectFit: 'cover',
+                borderRadius: 12,
+              }}
+            />
+          </Box>
+        </motion.div>
+      )}
     </Box>
   );
 }
