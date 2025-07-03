@@ -3,7 +3,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import bgImage from '../../../public/images/banner.png'; // Update path as needed
+import bgImage from '../../../public/images/servicesBanner.png'; // Update path as needed
 
 export default function Sec1() {
   return (
@@ -34,7 +34,7 @@ export default function Sec1() {
         sx={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(0, 0, 0, 0.4)', // dark overlay for text visibility
+          background: 'rgba(0, 0, 0, 0.66)', // dark overlay for text visibility
           zIndex: 1,
         }}
       />
