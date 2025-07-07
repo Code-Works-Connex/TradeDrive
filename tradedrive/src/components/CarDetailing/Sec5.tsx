@@ -258,7 +258,7 @@ export default function Sec5() {
           />
 
           <TextField
-          required
+            required
             fullWidth
             variant="standard"
             placeholder="Phone"
@@ -298,7 +298,12 @@ export default function Sec5() {
             InputLabelProps={{ style: { color: '#aaa' }, shrink: true }}
             sx={{
               mb: 2,
-              input: { color: '#fff' },
+              input: {
+                color: '#fff',
+                '&::-webkit-calendar-picker-indicator': {
+                  filter: 'invert(1)', // 👈 Inverts the icon color (makes it white)
+                },
+              },
               '& .MuiInput-underline:before': {
                 borderBottom: '1px solid #666',
               },
@@ -306,7 +311,7 @@ export default function Sec5() {
           />
 
           <TextField
-          required
+            required
             fullWidth
             variant="standard"
             placeholder="How can we help you?"

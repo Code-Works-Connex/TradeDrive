@@ -202,18 +202,19 @@ export default function Sec5() {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
+
                 }}
             >
                 <Typography
                     sx={{
                         fontSize: { xs: '1rem', md: '2rem' },
-                        
+
                         color: '#fff',
                         mb: 4,
                         textAlign: { xs: 'center', md: 'left' },
                     }}
                 >
-                   Book Your Service or Repair Today
+                    Book Your Service or Repair Today
                 </Typography>
 
                 {/* Display success or error messages */}
@@ -322,12 +323,18 @@ export default function Sec5() {
                         InputLabelProps={{ style: { color: '#aaa' }, shrink: true }}
                         sx={{
                             mb: 2,
-                            input: { color: '#fff' },
+                            input: {
+                                color: '#fff',
+                                '&::-webkit-calendar-picker-indicator': {
+                                    filter: 'invert(1)', // 👈 Inverts the icon color (makes it white)
+                                },
+                            },
                             '& .MuiInput-underline:before': {
                                 borderBottom: '1px solid #666',
                             },
                         }}
                     />
+
 
                     <TextField
                         required
