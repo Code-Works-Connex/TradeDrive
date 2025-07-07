@@ -64,20 +64,28 @@ export default function Sec3() {
             variant="h5"
             sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}
           >
-            Welcome to TradeDrive
+            Welcome to TradeDrive Auto
           </Typography>
 
           <Typography
             variant="body1"
             sx={{
-              maxWidth: 500,
+              maxWidth: 600,
               fontSize: { xs: '1rem', md: '1.15rem' },
               lineHeight: 1.7,
             }}
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-            has been the industry's standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it.
+            At <strong>TradeDrive Auto</strong>, we provide expert car care services that keep your vehicle in top shape—inside and out. From smart cosmetic fixes to deep diagnostics, we’ve got it all covered.
+            <br /><br />
+            <strong>Our key services:</strong>
+            <ul style={{ paddingLeft: '1.2em', marginTop: 8 }}>
+              <li>Alloy Wheel Rework</li>
+              <li>Dents & Scratch Removal</li>
+              <li>Interior & Exterior Detailing</li>
+              <li>Servicing & Mechanical Repair</li>
+              <li>Vehicle Diagnostics</li>
+              <li>Pre-MOT Inspections</li>
+            </ul>
           </Typography>
 
           <Button

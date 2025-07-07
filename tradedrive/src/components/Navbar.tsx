@@ -65,7 +65,7 @@ export default function Navbar() {
       href: "/body-shop",
       subItems: [
         { text: "Car Body Work", href: "/body-shop/car-body-work" },
-        { text: "Alloy Wheel Straightening", href: "/body-shop/alloy-wheel-straightening" },
+        { text: "Alloy Wheel Rework", href: "/body-shop/alloy-wheel-straightening" },
         { text: "Dent & Scratches", href: "/body-shop/dent-scratches" },
         { text: "Car Detailing", href: "/body-shop/car-detailing" },
       ],
