@@ -1,5 +1,3 @@
-// Paste this entire updated Sec7 component in your file
-
 "use client";
 
 import React, { useState } from "react";
@@ -13,13 +11,38 @@ import {
   Checkbox,
   FormControlLabel,
   Divider,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
+import { API_BASE_URL } from '../../api';
 
 import leftImage from "../../../public/images/img9.png";
 import rightImage from "../../../public/images/img10.png";
 import popupBackground from "../../../public/images/img1.png";
+
+export interface Booking {
+  id: number;
+  booking_id: string;
+  name: string;
+  phone: string;
+  email: string;
+  categories: string[];
+  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  date: string;
+  description: string;
+  createdAt: string;
+}
+
+interface B2BResponse {
+  id: number;
+  companyName: string;
+  email: string;
+  phone: string;
+  categories: string[];
+  status: 'New' | 'Reviewed' | 'Resolved';
+  createdAt: string;
+}
 
 type CategoryKey = "alloy" | "dents" | "detailing" | "service" | "diagnostic" | "mot";
 
@@ -28,18 +51,84 @@ interface FormData {
   company: string;
   email: string;
   phone: string;
+  date: string;
   categories: Record<CategoryKey, boolean>;
+}
+
+const CATEGORY_MAPPING: Record<CategoryKey, string> = {
+  alloy: "Alloy Wheel Rework",
+  dents: "Dents & Scratches",
+  detailing: "Car Detailing",
+  service: "Service & repair",
+  diagnostic: "Diagnostic",
+  mot: "MOT check",
+};
+
+// Server action: Create booking
+async function createBooking(
+  booking: Omit<Booking, 'id' | 'createdAt' | 'booking_id'>
+): Promise<Booking> {
+  try {
+    console.log('Creating booking with:', booking);
+    const response = await fetch(`${API_BASE_URL}/bookings/web`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(booking),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `Failed to create booking: ${response.statusText}`);
+    }
+
+    const createdBooking: Booking = await response.json();
+    return createdBooking;
+  } catch (error: any) {
+    console.error('Error creating booking:', error);
+    throw new Error(error.message || 'Unable to create booking');
+  }
+}
+
+// Server action: Create B2B response
+async function createB2BResponse(
+  response: Omit<B2BResponse, 'id' | 'createdAt'>
+): Promise<B2BResponse> {
+  try {
+    console.log('Creating B2B response with:', response);
+    const apiResponse = await fetch(`${API_BASE_URL}/b2b-responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(response),
+    });
+
+    if (!apiResponse.ok) {
+      const errorData = await apiResponse.json();
+      throw new Error(errorData.message || `Failed to create B2B response: ${apiResponse.statusText}`);
+    }
+
+    const createdResponse: B2BResponse = await apiResponse.json();
+    return createdResponse;
+  } catch (error: any) {
+    console.error('Error creating B2B response:', error);
+    throw new Error(error.message || 'Unable to create B2B response');
+  }
 }
 
 export default function Sec7() {
   const [openBookModal, setOpenBookModal] = useState(false);
   const [openContactModal, setOpenContactModal] = useState(false);
-
   const [formData, setFormData] = useState<FormData>({
     name: "",
     company: "",
     email: "",
     phone: "",
+    date: "",
     categories: {
       alloy: false,
       dents: false,
@@ -49,27 +138,197 @@ export default function Sec7() {
       mot: false,
     },
   });
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [successMsg, setSuccessMsg] = useState<string>('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log(`Updated ${name}:`, value); // Debug input changes
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      categories: { ...prev.categories, [name]: checked },
-    }));
+    setFormData((prev) => {
+      const newCategories = { ...prev.categories, [name]: checked };
+      console.log('Updated categories:', newCategories); // Debug category changes
+      return { ...prev, categories: newCategories };
+    });
+  };
+
+  const handleModalOpen = (type: "book" | "contact") => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setFormData({
+      name: "",
+      company: "",
+      email: "",
+      phone: "",
+      date: "",
+      categories: {
+        alloy: false,
+        dents: false,
+        detailing: false,
+        service: false,
+        diagnostic: false,
+        mot: false,
+      },
+    });
+    if (type === "contact") {
+      setOpenContactModal(true);
+    } else {
+      setOpenBookModal(true);
+    }
+  };
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const handleSubmit = async (type: "book" | "contact") => {
+    const isContact = type === "contact";
+
+    // Trim inputs for validation
+    const trimmedData = {
+      name: formData.name.trim(),
+      company: formData.company.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      date: formData.date.trim(),
+    };
+
+    // Debug form data
+    console.log('Form data on submit:', { ...trimmedData, categories: formData.categories });
+    console.log('Email valid:', emailRegex.test(trimmedData.email));
+    console.log('Categories selected:', Object.values(formData.categories).some((checked) => checked));
+
+    // Validate required fields
+    if (!isContact && !trimmedData.name) {
+      setErrorMsg('Name is required.');
+      return;
+    }
+    if (isContact && !trimmedData.company) {
+      setErrorMsg('Company name is required.');
+      return;
+    }
+    if (!trimmedData.email) {
+      setErrorMsg('Email is required.');
+      return;
+    }
+    if (!emailRegex.test(trimmedData.email)) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+    if (!trimmedData.phone) {
+      setErrorMsg('Phone is required.');
+      return;
+    }
+    if (!isContact && !trimmedData.date) {
+      setErrorMsg('Date is required.');
+      return;
+    }
+    if (!isContact) {
+      const selectedDate = new Date(trimmedData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        setErrorMsg('Date must be today or in the future.');
+        return;
+      }
+    }
+    const selectedCategories = Object.entries(formData.categories)
+      .filter(([_, checked]) => checked)
+      .map(([key]) => CATEGORY_MAPPING[key as CategoryKey]);
+    if (selectedCategories.length === 0) {
+      setErrorMsg('At least one category must be selected.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setErrorMsg('');
+
+      if (isContact) {
+        const b2bData: Omit<B2BResponse, 'id' | 'createdAt'> = {
+          companyName: trimmedData.company,
+          email: trimmedData.email,
+          phone: trimmedData.phone,
+          categories: selectedCategories,
+          status: 'New',
+        };
+        await createB2BResponse(b2bData);
+      } else {
+        const bookingData: Omit<Booking, 'id' | 'createdAt' | 'booking_id'> = {
+          name: trimmedData.name,
+          phone: trimmedData.phone,
+          email: trimmedData.email,
+          categories: selectedCategories,
+          status: 'Pending',
+          date: trimmedData.date,
+          description: 'Booking submitted via website',
+        };
+        await createBooking(bookingData);
+      }
+
+      setSuccessMsg(isContact ? 'Contact request submitted successfully!' : 'Booking created successfully!');
+      setTimeout(() => setSuccessMsg(''), 3000);
+      
+      // Reset form and close modal
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        date: "",
+        categories: {
+          alloy: false,
+          dents: false,
+          detailing: false,
+          service: false,
+          diagnostic: false,
+          mot: false,
+        },
+      });
+      if (isContact) {
+        setOpenContactModal(false);
+      } else {
+        setOpenBookModal(false);
+      }
+    } catch (error: any) {
+      setErrorMsg(error.message || 'Failed to submit form');
+      setTimeout(() => setErrorMsg(''), 3000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderModal = (type: "book" | "contact") => {
     const isContact = type === "contact";
 
+    // Debug: Calculate disabled conditions
+    const trimmedData = {
+      name: formData.name.trim(),
+      company: formData.company.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      date: formData.date.trim(),
+    };
+    const isButtonDisabled =
+      loading ||
+      (isContact ? !trimmedData.company : !trimmedData.name) ||
+      !trimmedData.email ||
+      !emailRegex.test(trimmedData.email) ||
+      !trimmedData.phone ||
+      (!isContact && !trimmedData.date) ||
+      !Object.values(formData.categories).some((checked) => checked);
+
     return (
       <Modal
         open={isContact ? openContactModal : openBookModal}
-        onClose={() => (isContact ? setOpenContactModal(false) : setOpenBookModal(false))}
+        onClose={() => {
+          setErrorMsg('');
+          setSuccessMsg('');
+          isContact ? setOpenContactModal(false) : setOpenBookModal(false);
+        }}
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <Box sx={{ width: "100%", maxWidth: 600, mx: 2 }}>
@@ -82,8 +341,12 @@ export default function Sec7() {
               overflowY: "auto",
               maxHeight: "90vh",
               scrollbarWidth: "thin",
+              scrollbarColor: "#888 #222",
               "&::-webkit-scrollbar": {
                 width: "8px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "#222",
               },
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: "#888",
@@ -98,7 +361,11 @@ export default function Sec7() {
               style={{ objectFit: "cover", opacity: 0.1, zIndex: 0 }}
             />
             <IconButton
-              onClick={() => (isContact ? setOpenContactModal(false) : setOpenBookModal(false))}
+              onClick={() => {
+                setErrorMsg('');
+                setSuccessMsg('');
+                isContact ? setOpenContactModal(false) : setOpenBookModal(false);
+              }}
               sx={{ position: "absolute", top: 10, right: 10, color: "#fff", zIndex: 1 }}
             >
               <CloseIcon />
@@ -109,13 +376,36 @@ export default function Sec7() {
                 {isContact ? "Let's Work Together" : "Book Your Slot"}
               </Typography>
 
+              {errorMsg && (
+                <Alert severity="error" sx={{ mb: 2, bgcolor: 'rgba(255, 76, 76, 0.1)', color: '#fff' }}>
+                  {errorMsg}
+                </Alert>
+              )}
+              {successMsg && (
+                <Alert severity="success" sx={{ mb: 2, bgcolor: 'rgba(76, 175, 80, 0.1)', color: '#fff' }}>
+                  {successMsg}
+                </Alert>
+              )}
+
+              {/* Debug: Show form validation status */}
+              {/* {isContact && (
+                <Box sx={{ mb: 2, color: '#fff', fontSize: '0.8rem' }}>
+                  <Typography>Debug - Button disabled: {isButtonDisabled ? 'Yes' : 'No'}</Typography>
+                  <Typography>Company valid: {trimmedData.company ? 'Yes' : 'No'}</Typography>
+                  <Typography>Email valid: {trimmedData.email && emailRegex.test(trimmedData.email) ? 'Yes' : 'No'}</Typography>
+                  <Typography>Phone valid: {trimmedData.phone ? 'Yes' : 'No'}</Typography>
+                  <Typography>Categories selected: {Object.values(formData.categories).some((checked) => checked) ? 'Yes' : 'No'}</Typography>
+                </Box>
+              )} */}
+
               {([
                 ...(isContact
-                  ? [{ label: "Company Name", name: "company" as const }]
-                  : [{ label: "Name", name: "name" as const }]),
-                { label: "Phone", name: "phone" as const },
-                { label: "Email", name: "email" as const },
-              ] as const).map(({ label, name }) => (
+                  ? [{ label: "Company Name *", name: "company" as const, type: "text" as const }]
+                  : [{ label: "Name *", name: "name" as const, type: "text" as const }]),
+                { label: "Phone *", name: "phone" as const, type: "tel" as const },
+                { label: "Email *", name: "email" as const, type: "email" as const },
+                ...(isContact ? [] : [{ label: "Booking Date *", name: "date" as const, type: "date" as const }]),
+              ] as const).map(({ label, name, type }) => (
                 <Box
                   key={name}
                   sx={{
@@ -125,9 +415,11 @@ export default function Sec7() {
                 >
                   <TextField
                     fullWidth
+                    required
                     name={name}
                     placeholder={label}
                     variant="standard"
+                    type={type}
                     value={formData[name]}
                     onChange={handleChange}
                     InputProps={{
@@ -137,12 +429,14 @@ export default function Sec7() {
                     sx={{
                       "& input::placeholder": { color: "#fff", opacity: 0.8 },
                     }}
+                    disabled={loading}
+                    InputLabelProps={type === "date" ? { shrink: true } : undefined}
                   />
                 </Box>
               ))}
 
               <Typography sx={{ color: "#fff", mb: 1, fontWeight: 500 }}>
-                Select Category
+                Select Category *
               </Typography>
 
               <Box
@@ -162,12 +456,12 @@ export default function Sec7() {
                   }}
                 >
                   <Typography sx={{ color: "#fff", mb: 1, fontWeight: 600 }}>
-                    Car Body Work &gt;
+                    Car Body Work
                   </Typography>
                   <Divider sx={{ borderColor: "#444", mb: 1 }} />
                   {[
                     { label: "Alloy Wheel Rework", key: "alloy" },
-                    { label: "Dents & Scratures", key: "dents" },
+                    { label: "Dents & Scratches", key: "dents" },
                     { label: "Car Detailing", key: "detailing" },
                   ].map((item) => (
                     <FormControlLabel
@@ -181,6 +475,7 @@ export default function Sec7() {
                             color: "#aaa",
                             "&.Mui-checked": { color: "#fff" },
                           }}
+                          disabled={loading}
                         />
                       }
                       label={item.label}
@@ -199,7 +494,7 @@ export default function Sec7() {
                   }}
                 >
                   <Typography sx={{ color: "#fff", mb: 1, fontWeight: 600 }}>
-                    Work Shop &gt;
+                    Work Shop
                   </Typography>
                   <Divider sx={{ borderColor: "#444", mb: 1 }} />
                   {[
@@ -218,6 +513,7 @@ export default function Sec7() {
                             color: "#aaa",
                             "&.Mui-checked": { color: "#fff" },
                           }}
+                          disabled={loading}
                         />
                       }
                       label={item.label}
@@ -230,6 +526,8 @@ export default function Sec7() {
               <Button
                 variant="contained"
                 fullWidth
+                onClick={() => handleSubmit(type)}
+                disabled={isButtonDisabled}
                 sx={{
                   mt: 3,
                   backgroundColor: "#fff",
@@ -238,9 +536,13 @@ export default function Sec7() {
                   "&:hover": {
                     backgroundColor: "#eee",
                   },
+                  "&:disabled": {
+                    backgroundColor: "#aaa",
+                    color: "#666",
+                  },
                 }}
               >
-                SUBMIT
+                {loading ? 'Submitting...' : 'SUBMIT'}
               </Button>
             </Box>
           </Box>
@@ -275,7 +577,6 @@ export default function Sec7() {
             textAlign: "center",
           }}
         >
-       
           <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
             HAVE A PROBLEM?
           </Typography>
@@ -288,7 +589,7 @@ export default function Sec7() {
               py: 1,
               "&:hover": { backgroundColor: "#fff", color: "#000" },
             }}
-            onClick={() => setOpenBookModal(true)}
+            onClick={() => handleModalOpen("book")}
           >
             BOOK NOW
           </Button>
@@ -324,7 +625,7 @@ export default function Sec7() {
               py: 1,
               "&:hover": { backgroundColor: "#fff", color: "#000" },
             }}
-            onClick={() => setOpenContactModal(true)}
+            onClick={() => handleModalOpen("contact")}
           >
             CONTACT US
           </Button>
