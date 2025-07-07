@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -123,6 +123,7 @@ async function createB2BResponse(
 export default function Sec7() {
   const [openBookModal, setOpenBookModal] = useState(false);
   const [openContactModal, setOpenContactModal] = useState(false);
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     company: "",
@@ -141,6 +142,17 @@ export default function Sec7() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
   const [loading, setLoading] = useState(false);
+
+  // Auto-close success modal after 5 seconds
+  useEffect(() => {
+    if (openSuccessModal && successMsg) {
+      const timer = setTimeout(() => {
+        setSuccessMsg('');
+        setOpenSuccessModal(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [openSuccessModal, successMsg]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -256,6 +268,7 @@ export default function Sec7() {
           status: 'New',
         };
         await createB2BResponse(b2bData);
+        setOpenContactModal(false); // Close contact modal
       } else {
         const bookingData: Omit<Booking, 'id' | 'createdAt' | 'booking_id'> = {
           name: trimmedData.name,
@@ -267,12 +280,10 @@ export default function Sec7() {
           description: 'Booking submitted via website',
         };
         await createBooking(bookingData);
+        setOpenBookModal(false); // Close booking modal
       }
 
-      setSuccessMsg(isContact ? 'Contact request submitted successfully!' : 'Booking created successfully!');
-      setTimeout(() => setSuccessMsg(''), 3000);
-      
-      // Reset form and close modal
+      // Reset form and open success modal
       setFormData({
         name: "",
         company: "",
@@ -288,11 +299,8 @@ export default function Sec7() {
           mot: false,
         },
       });
-      if (isContact) {
-        setOpenContactModal(false);
-      } else {
-        setOpenBookModal(false);
-      }
+      setSuccessMsg(isContact ? 'Contact request submitted successfully!' : 'Booking created successfully!');
+      setOpenSuccessModal(true);
     } catch (error: any) {
       setErrorMsg(error.message || 'Failed to submit form');
       setTimeout(() => setErrorMsg(''), 3000);
@@ -301,7 +309,7 @@ export default function Sec7() {
     }
   };
 
-  const renderModal = (type: "book" | "contact") => {
+  const renderFormModal = (type: "book" | "contact") => {
     const isContact = type === "contact";
 
     // Debug: Calculate disabled conditions
@@ -379,11 +387,6 @@ export default function Sec7() {
               {errorMsg && (
                 <Alert severity="error" sx={{ mb: 2, bgcolor: 'rgba(255, 76, 76, 0.1)', color: '#fff' }}>
                   {errorMsg}
-                </Alert>
-              )}
-              {successMsg && (
-                <Alert severity="success" sx={{ mb: 2, bgcolor: 'rgba(76, 175, 80, 0.1)', color: '#fff' }}>
-                  {successMsg}
                 </Alert>
               )}
 
@@ -551,6 +554,70 @@ export default function Sec7() {
     );
   };
 
+  const renderSuccessModal = () => {
+    return (
+      <Modal
+        open={openSuccessModal}
+        onClose={() => {
+          setSuccessMsg('');
+          setOpenSuccessModal(false);
+        }}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Box sx={{ width: "100%", maxWidth: 400, mx: 2 }}>
+          <Box
+            sx={{
+              position: "relative",
+              backgroundColor: "rgba(0, 0, 0, 0.95)",
+              p: 4,
+              borderRadius: 2,
+              textAlign: "center",
+            }}
+          >
+            <Image
+              src={popupBackground}
+              alt="Popup Background"
+              fill
+              style={{ objectFit: "cover", opacity: 0.1, zIndex: 0 }}
+            />
+            <IconButton
+              onClick={() => {
+                setSuccessMsg('');
+                setOpenSuccessModal(false);
+              }}
+              sx={{ position: "absolute", top: 10, right: 10, color: "#fff", zIndex: 1 }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            <Box sx={{ position: "relative", zIndex: 2 }}>
+              <Alert severity="success" sx={{ mb: 2, bgcolor: 'rgba(76, 175, 80, 0.1)', color: '#fff' }}>
+                {successMsg}
+              </Alert>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setSuccessMsg('');
+                  setOpenSuccessModal(false);
+                }}
+                sx={{
+                  backgroundColor: "#fff",
+                  color: "#C8102E",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#eee",
+                  },
+                }}
+              >
+                Close
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -633,8 +700,9 @@ export default function Sec7() {
       </Box>
 
       {/* Modals */}
-      {renderModal("book")}
-      {renderModal("contact")}
+      {renderFormModal("book")}
+      {renderFormModal("contact")}
+      {renderSuccessModal()}
     </Box>
   );
 }
