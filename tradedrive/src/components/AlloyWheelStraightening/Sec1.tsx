@@ -51,7 +51,7 @@ export default function Sec1() {
           fontSize: { xs: '2rem', sm: '3rem', md: '4rem' },
         }}
       >
-    ALLOY WHEEL STRAIGHTENING
+    ALLOY WHEEL REWORK
       </Typography>
     </Box>
   );

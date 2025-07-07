@@ -56,6 +56,17 @@ export default function Sec8() {
     fetchTestimonials();
   }, []);
 
+  // Autoplay effect
+  useEffect(() => {
+    if (testimonials.length === 0) return;
+
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+    }, 5000); // Change every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [testimonials, total]);
+
   const current = testimonials[index];
 
   return (
@@ -126,7 +137,6 @@ export default function Sec8() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
-                // py: 4,
                 px: { xs: 0, sm: 2 },
                 flex: 1,
               }}
