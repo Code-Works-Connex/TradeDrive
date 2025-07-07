@@ -10,7 +10,6 @@ import roadIcon from "../../public/images/footer2 (2).png";
 import airportIcon from "../../public/images/footer2 (3).png";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
-import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -18,14 +17,13 @@ import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
+import { FaTiktok } from "react-icons/fa";
 
 export default function Footer() {
   const [openModal, setOpenModal] = useState(false);
-
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-  // Sample full hours data
   const fullHours = [
     { day: "Monday", hours: "09:30 am - 07:00 pm" },
     { day: "Tuesday", hours: "09:30 am - 07:00 pm" },
@@ -35,6 +33,9 @@ export default function Footer() {
     { day: "Saturday", hours: "10:00 am - 05:00 pm" },
     { day: "Sunday", hours: "Closed" },
   ];
+
+  const now = new Date();
+  const currentDay = now.toLocaleDateString("en-UK", { weekday: "long" });
 
   return (
     <Box
@@ -72,46 +73,63 @@ export default function Footer() {
           line of business.
         </Typography>
         <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
-          <IconButton color="inherit"><FacebookIcon /></IconButton>
-          <IconButton color="inherit"><XIcon /></IconButton>
-          <IconButton color="inherit"><YouTubeIcon /></IconButton>
-          <IconButton color="inherit"><LinkedInIcon /></IconButton>
+          <IconButton component="a" href="https://www.facebook.com/share/1Aqij2UtLv/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" color="inherit">
+            <FacebookIcon />
+          </IconButton>
+          <IconButton component="a" href="https://wa.me/message/3RPST52EUMRVI1" target="_blank" rel="noopener noreferrer" color="inherit">
+            <WhatsAppIcon />
+          </IconButton>
+          <IconButton component="a" href="https://www.tiktok.com/@tradedriveautos?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" color="inherit">
+            <FaTiktok style={{ fontSize: 20 }} />
+          </IconButton>
+          <IconButton component="a" href="https://www.youtube.com/channel/UCBoErPVRb1tayHjIz2DKM8g" target="_blank" rel="noopener noreferrer" color="inherit">
+            <YouTubeIcon />
+          </IconButton>
         </Box>
         <Divider sx={{ mt: 2, bgcolor: "#444", display: { xs: "block", md: "none" } }} />
       </Box>
 
-      {/* Vertical Divider for desktop, hidden on mobile */}
-      <Divider
-        orientation="vertical"
-        flexItem
-        sx={{ display: { xs: "none", md: "block" }, mx: 2, bgcolor: "#444" }}
-      />
-
       {/* Middle Section */}
+      <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, mx: 2, bgcolor: "#444" }} />
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 1, mx: { xs: 2, md: 0 } }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
           <PhoneIcon color="error" />
-          <Typography variant="body1">01767 306528</Typography>
+          <Typography variant="body1">075 555 94947</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
           <EmailIcon color="error" />
-          <Typography variant="body1">sales@tradedrivemotors.co.uk</Typography>
+          <Typography variant="body1">tradedriveautos@gmail.com</Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
+        <Box
+          component="a"
+          href="https://wa.me/447555594947"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: { xs: "center", md: "flex-start" },
+            gap: 1,
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
           <WhatsAppIcon color="error" />
           <Typography variant="body1">Chat with us</Typography>
         </Box>
 
-        {/* Opening Hours Row */}
-        <Box sx={{
-          mt: 3,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: { xs: "center", md: "flex-start" },
-          flexWrap: "wrap",
-          gap: 2,
-        }}>
-          <Typography variant="body2" sx={{ color: "#bbb" }}>Tuesday</Typography>
+        {/* Dynamic Day + Static Time */}
+        <Box
+          sx={{
+            mt: 3,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: { xs: "center", md: "flex-start" },
+            flexWrap: "wrap",
+            gap: 2,
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "#bbb" }}>{currentDay}</Typography>
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>09:30 am - 07:00 pm</Typography>
           <Typography
             variant="body2"
@@ -130,39 +148,26 @@ export default function Footer() {
         <Divider sx={{ mt: 2, bgcolor: "#444", display: { xs: "block", md: "none" } }} />
       </Box>
 
-      {/* Vertical Divider for desktop, hidden on mobile */}
-      <Divider
-        orientation="vertical"
-        flexItem
-        sx={{ display: { xs: "none", md: "block" }, mx: 2, bgcolor: "#444" }}
-      />
-
       {/* Right Section */}
+      <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, mx: 2, bgcolor: "#444" }} />
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", mx: { xs: 2, md: 0 } }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, mb: 2 }}>
           <LocationOnIcon color="error" sx={{ mr: 1 }} />
           <Typography variant="body2">
-            50D Sunderland Road, Sandy,<br />
-            Bedfordshire, SG19 1QY
+            50F, Sunderland Road, <br /> Sandy, SG19 1QY
           </Typography>
         </Box>
-
         <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 4 }}>
-          {/* Sandy */}
           <Box sx={{ textAlign: "center" }}>
             <Image src={planeIcon} alt="Sandy" width={50} height={50} />
             <Typography variant="body1" sx={{ mt: 1 }}>Sandy Station</Typography>
             <Typography variant="caption">4 min</Typography>
           </Box>
-
-          {/* A1 */}
           <Box sx={{ textAlign: "center" }}>
             <Image src={roadIcon} alt="A1" width={50} height={50} />
             <Typography variant="body1" sx={{ mt: 1 }}>A1</Typography>
             <Typography variant="caption">2 min</Typography>
           </Box>
-
-          {/* Airport */}
           <Box sx={{ textAlign: "center" }}>
             <Image src={airportIcon} alt="Stansted" width={50} height={50} />
             <Typography variant="body1" sx={{ mt: 1 }}>Stansted Airport</Typography>
@@ -186,18 +191,18 @@ export default function Footer() {
             color: "white",
             p: 3,
             borderRadius: 1,
-            border: "1px solid #444", // Added subtle border
-            maxWidth: { xs: "90%", md: "350px" }, // Adjusted width for balance
+            border: "1px solid #444",
+            maxWidth: { xs: "90%", md: "350px" },
             width: "100%",
-            maxHeight: "70vh", // Adjusted height
+            maxHeight: "70vh",
             overflowY: "auto",
             position: "relative",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)", // Added shadow for depth
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
           }}
         >
           <Box
             sx={{
-              backgroundColor: "#1a1a1a", // Header background
+              backgroundColor: "#1a1a1a",
               p: 2,
               mb: 2,
               borderBottom: "1px solid #444",
