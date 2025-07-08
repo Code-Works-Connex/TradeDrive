@@ -17,8 +17,13 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import Image from 'next/image';
 import bookingImage from '../../../public/images/detailingsec5.png';
 import { API_ENDPOINTS } from '../../../src/api';
+
+// Define categories array (aligned with backend)
+const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
 
 interface FormData {
   name: string;
@@ -26,8 +31,7 @@ interface FormData {
   email: string;
   date: string;
   description: string;
-  category: string;
-  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  categories: string[];
   agree: boolean;
 }
 
@@ -37,8 +41,7 @@ interface FormErrors {
   email?: string;
   date?: string;
   description?: string;
-  category?: string;
-  status?: string;
+  categories?: string;
   agree?: string;
 }
 
@@ -49,8 +52,7 @@ export default function Sec5() {
     email: '',
     date: '',
     description: '',
-    category: 'Car Detailing', // Default to 'Car Detailing'
-    status: 'Pending',
+    categories: ['Car Detailing'], // Default to array with 'Car Detailing'
     agree: false,
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -75,10 +77,24 @@ export default function Sec5() {
     const newErrors: FormErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!/^\+?[\d\s-]{7,20}$/.test(formData.phone.trim())) {
+      newErrors.phone = 'Please enter a valid phone number (7-20 characters, digits, spaces, or +)';
+    }
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
+    if (!formData.date) newErrors.date = 'Booking date is required';
+    else {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        newErrors.date = 'Booking date must be today or in the future';
+      }
+    }
+    if (!formData.description.trim()) newErrors.description = 'Description is required';
+    if (!formData.categories.length) newErrors.categories = 'At least one category is required';
     if (!formData.agree) newErrors.agree = 'You must agree to data collection';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -103,17 +119,23 @@ export default function Sec5() {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           email: formData.email.trim(),
-          category: 'Car Detailing', // Hardcode to 'Car Detailing'
-          status: formData.status,
-          date: formData.date ? formData.date : null,
-          description: formData.description.trim() || null,
+          categories: formData.categories,
+          status: 'Pending',
+          date: formData.date,
+          description: formData.description.trim(),
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create booking');
+        const errorMsg = data.message || 'Failed to create booking';
+        if (errorMsg.includes('Invalid category value')) {
+          throw new Error('Selected service is not valid. Please choose a valid service.');
+        } else if (errorMsg.includes('Name, phone, and email are required')) {
+          throw new Error('Please provide all required fields (name, phone, email).');
+        }
+        throw new Error(errorMsg);
       }
 
       setSuccess('Booking created successfully!');
@@ -123,8 +145,7 @@ export default function Sec5() {
         email: '',
         date: '',
         description: '',
-        category: 'Car Detailing',
-        status: 'Pending',
+        categories: ['Car Detailing'],
         agree: false,
       });
       setErrors({});
@@ -152,21 +173,14 @@ export default function Sec5() {
           display: { xs: 'none', md: 'block' },
           position: 'relative',
           height: '70vh',
+          p: 1.25,
         }}
       >
-        <img
-          src={bookingImage.src}
-          alt="Booking"
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            top: 0,
-            left: 0,
-            zIndex: 0,
-            padding: 10,
-          }}
+        <Image
+          src={bookingImage}
+          alt="Car Detailing"
+          fill
+          style={{ objectFit: 'cover' }}
         />
       </Box>
 
@@ -204,7 +218,7 @@ export default function Sec5() {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <TextField
             fullWidth
             variant="standard"
@@ -214,6 +228,10 @@ export default function Sec5() {
             onChange={handleChange}
             error={!!errors.name}
             helperText={errors.name}
+            required
+            aria-label="Full name"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -236,10 +254,15 @@ export default function Sec5() {
             variant="standard"
             placeholder="Email"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             error={!!errors.email}
             helperText={errors.email}
+            required
+            aria-label="Email address"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -258,7 +281,6 @@ export default function Sec5() {
           />
 
           <TextField
-            required
             fullWidth
             variant="standard"
             placeholder="Phone"
@@ -267,6 +289,10 @@ export default function Sec5() {
             onChange={handleChange}
             error={!!errors.phone}
             helperText={errors.phone}
+            required
+            aria-label="Phone number"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -285,7 +311,6 @@ export default function Sec5() {
           />
 
           <TextField
-            required
             fullWidth
             variant="standard"
             label="Booking Date"
@@ -295,13 +320,24 @@ export default function Sec5() {
             onChange={handleChange}
             error={!!errors.date}
             helperText={errors.date}
+            required
+            aria-label="Booking date"
+            aria-required="true"
+            disabled={loading}
             InputLabelProps={{ style: { color: '#aaa' }, shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarTodayIcon sx={{ color: '#fff' }} />
+                </InputAdornment>
+              ),
+            }}
             sx={{
               mb: 2,
               input: {
                 color: '#fff',
                 '&::-webkit-calendar-picker-indicator': {
-                  filter: 'invert(1)', // 👈 Inverts the icon color (makes it white)
+                  filter: 'invert(1)',
                 },
               },
               '& .MuiInput-underline:before': {
@@ -311,7 +347,6 @@ export default function Sec5() {
           />
 
           <TextField
-            required
             fullWidth
             variant="standard"
             placeholder="How can we help you?"
@@ -322,6 +357,10 @@ export default function Sec5() {
             helperText={errors.description}
             multiline
             rows={2}
+            required
+            aria-label="Booking description"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -339,6 +378,13 @@ export default function Sec5() {
             }}
           />
 
+          <Typography
+            variant="body1"
+            sx={{ mb: 2, color: '#aaa', fontSize: '0.875rem' }}
+          >
+            Service: {formData.categories.join(', ')}
+          </Typography>
+
           <FormControlLabel
             control={
               <Checkbox
@@ -346,6 +392,8 @@ export default function Sec5() {
                 checked={formData.agree}
                 onChange={handleChange}
                 sx={{ color: '#fff' }}
+                required
+                disabled={loading}
               />
             }
             label={

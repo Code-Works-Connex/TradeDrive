@@ -5,23 +5,24 @@ import {
   Box,
   Button,
   FormControlLabel,
-  InputAdornment,
   TextField,
   Typography,
   Checkbox,
   Alert,
   CircularProgress,
+  InputAdornment,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import PhoneIcon from '@mui/icons-material/Phone';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import wheelImage from '../../../public/images/alloyWheel/alloywheel3.png';
-import { API_ENDPOINTS, API_HOST } from '../../../src/api';
+import { API_ENDPOINTS } from '../../../src/api';
 
-// Define categories array (only 'Alloy Wheel Rework' for this use case)
-const CATEGORIES = ['Alloy Wheel Rework'];
+// Define categories array (aligned with backend)
+const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
 
 interface FormData {
   name: string;
@@ -29,8 +30,7 @@ interface FormData {
   email: string;
   date: string;
   description: string;
-  category: string;
-  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  categories: string[];
   agree: boolean;
 }
 
@@ -40,8 +40,7 @@ interface FormErrors {
   email?: string;
   date?: string;
   description?: string;
-  category?: string;
-  status?: string;
+  categories?: string;
   agree?: string;
 }
 
@@ -52,8 +51,7 @@ export default function Home() {
     email: '',
     date: '',
     description: '',
-    category: 'Alloy Wheel Rework', // Default to 'Alloy Wheel Rework'
-    status: 'Pending',
+    categories: ['Alloy Wheel Rework'], // Default to array with 'Alloy Wheel Rework'
     agree: false,
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -78,10 +76,22 @@ export default function Home() {
     const newErrors: FormErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!/^\+?[\d\s-]{7,20}$/.test(formData.phone.trim())) {
+      newErrors.phone = 'Please enter a valid phone number (7-20 characters, digits, spaces, or +)';
+    }
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
+    if (formData.date) {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time for comparison
+      if (selectedDate < today) {
+        newErrors.date = 'Booking date must be today or in the future';
+      }
+    }
+    if (!formData.categories.length) newErrors.categories = 'At least one category is required';
     if (!formData.agree) newErrors.agree = 'You must agree to data collection';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -106,8 +116,8 @@ export default function Home() {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           email: formData.email.trim(),
-          category: 'Alloy Wheel Rework', // Hardcode to 'Alloy Wheel Rework'
-          status: formData.status,
+          categories: formData.categories,
+          status: 'Pending',
           date: formData.date ? formData.date : null,
           description: formData.description.trim() || null,
         }),
@@ -116,7 +126,14 @@ export default function Home() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create booking');
+        const errorMsg = data.message || 'Failed to create booking';
+        // Map backend errors to user-friendly messages
+        if (errorMsg.includes('Invalid category value')) {
+          throw new Error('Selected category is not valid. Please choose a valid service.');
+        } else if (errorMsg.includes('Name, phone, and email are required')) {
+          throw new Error('Please provide all required fields (name, phone, email).');
+        }
+        throw new Error(errorMsg);
       }
 
       setSuccess('Booking created successfully!');
@@ -126,8 +143,7 @@ export default function Home() {
         email: '',
         date: '',
         description: '',
-        category: 'Alloy Wheel Rework',
-        status: 'Pending',
+        categories: ['Alloy Wheel Rework'],
         agree: false,
       });
       setErrors({});
@@ -159,7 +175,6 @@ export default function Home() {
           overflow: 'hidden',
         }}
       >
-        {/* Background image */}
         <Box
           sx={{
             position: 'absolute',
@@ -170,18 +185,14 @@ export default function Home() {
             zIndex: 1,
           }}
         />
-
-        {/* Dark overlay */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.85)', // darker overlay
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
             zIndex: 2,
           }}
         />
-
-        {/* Text Content */}
         <Box
           sx={{
             position: 'relative',
@@ -230,7 +241,6 @@ export default function Home() {
           Book Now
         </Typography>
 
-        {/* Display success or error messages */}
         {success && (
           <Alert severity="success" sx={{ mb: 2 }}>
             {success}
@@ -242,7 +252,7 @@ export default function Home() {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <TextField
             fullWidth
             variant="standard"
@@ -252,6 +262,9 @@ export default function Home() {
             onChange={handleChange}
             error={!!errors.name}
             helperText={errors.name}
+            required
+            aria-label="Full name"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -274,10 +287,14 @@ export default function Home() {
             variant="standard"
             placeholder="Email"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             error={!!errors.email}
             helperText={errors.email}
+            required
+            aria-label="Email address"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -304,6 +321,9 @@ export default function Home() {
             onChange={handleChange}
             error={!!errors.phone}
             helperText={errors.phone}
+            required
+            aria-label="Phone number"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -332,6 +352,15 @@ export default function Home() {
             error={!!errors.date}
             helperText={errors.date}
             InputLabelProps={{ style: { color: '#666' }, shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarTodayIcon sx={{ color: '#000' }} />
+                </InputAdornment>
+              ),
+            }}
+            disabled={loading}
+            aria-label="Booking date"
             sx={{
               mb: 2,
               input: { color: '#000' },
@@ -352,6 +381,8 @@ export default function Home() {
             helperText={errors.description}
             multiline
             rows={2}
+            aria-label="Booking description"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -362,12 +393,19 @@ export default function Home() {
             InputLabelProps={{ style: { color: '#666' } }}
             sx={{
               mb: 2,
-              input: { color: '#000' },
+              textarea: { color: '#000' },
               '& .MuiInput-underline:before': {
                 borderBottom: '1px solid #666',
               },
             }}
           />
+
+          <Typography
+            variant="body1"
+            sx={{ mb: 2, color: '#666', fontSize: '0.875rem' }}
+          >
+            Service: {formData.categories.join(', ')}
+          </Typography>
 
           <FormControlLabel
             control={
@@ -376,6 +414,7 @@ export default function Home() {
                 checked={formData.agree}
                 onChange={handleChange}
                 sx={{ color: '#000' }}
+                disabled={loading}
               />
             }
             label={

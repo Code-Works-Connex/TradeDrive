@@ -9,7 +9,6 @@ import {
   Checkbox,
   FormControlLabel,
   InputAdornment,
-  IconButton,
   Alert,
   CircularProgress,
 } from '@mui/material';
@@ -18,7 +17,11 @@ import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import PhoneIcon from '@mui/icons-material/Phone';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { API_ENDPOINTS } from '../../../src/api';
+
+// Define categories array (aligned with backend)
+const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
 
 interface FormData {
   name: string;
@@ -26,8 +29,7 @@ interface FormData {
   email: string;
   date: string;
   description: string;
-  category: string;
-  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  categories: string[];
   agree: boolean;
 }
 
@@ -37,8 +39,7 @@ interface FormErrors {
   email?: string;
   date?: string;
   description?: string;
-  category?: string;
-  status?: string;
+  categories?: string;
   agree?: string;
 }
 
@@ -49,8 +50,7 @@ export default function Sec2() {
     email: '',
     date: '',
     description: '',
-    category: 'Dents & Scratches', // Default to 'Dents & Scratches'
-    status: 'Pending',
+    categories: ['Dents & Scratches'], // Default to array with 'Dents & Scratches'
     agree: false,
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -75,10 +75,24 @@ export default function Sec2() {
     const newErrors: FormErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!/^\+?[\d\s-]{7,20}$/.test(formData.phone.trim())) {
+      newErrors.phone = 'Please enter a valid phone number (7-20 characters, digits, spaces, or +)';
+    }
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
+    if (!formData.date) newErrors.date = 'Booking date is required';
+    else {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        newErrors.date = 'Booking date must be today or in the future';
+      }
+    }
+    if (!formData.description.trim()) newErrors.description = 'Description is required';
+    if (!formData.categories.length) newErrors.categories = 'At least one category is required';
     if (!formData.agree) newErrors.agree = 'You must agree to data collection';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -103,17 +117,23 @@ export default function Sec2() {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           email: formData.email.trim(),
-          category: 'Dents & Scratches', // Hardcode to 'Dents & Scratches'
-          status: formData.status,
-          date: formData.date ? formData.date : null,
-          description: formData.description.trim() || null,
+          categories: formData.categories,
+          status: 'Pending',
+          date: formData.date,
+          description: formData.description.trim(),
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create booking');
+        const errorMsg = data.message || 'Failed to create booking';
+        if (errorMsg.includes('Invalid category value')) {
+          throw new Error('Selected service is not valid. Please choose a valid service.');
+        } else if (errorMsg.includes('Name, phone, and email are required')) {
+          throw new Error('Please provide all required fields (name, phone, email).');
+        }
+        throw new Error(errorMsg);
       }
 
       setSuccess('Booking created successfully!');
@@ -123,8 +143,7 @@ export default function Sec2() {
         email: '',
         date: '',
         description: '',
-        category: 'Dents & Scratches',
-        status: 'Pending',
+        categories: ['Dents & Scratches'],
         agree: false,
       });
       setErrors({});
@@ -183,7 +202,7 @@ export default function Sec2() {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <TextField
             fullWidth
             variant="standard"
@@ -193,6 +212,10 @@ export default function Sec2() {
             onChange={handleChange}
             error={!!errors.name}
             helperText={errors.name}
+            required
+            aria-label="Full name"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -209,10 +232,15 @@ export default function Sec2() {
             variant="standard"
             placeholder="Email Address"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             error={!!errors.email}
             helperText={errors.email}
+            required
+            aria-label="Email address"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -225,7 +253,6 @@ export default function Sec2() {
           />
 
           <TextField
-           required
             fullWidth
             variant="standard"
             placeholder="Phone Number"
@@ -234,6 +261,10 @@ export default function Sec2() {
             onChange={handleChange}
             error={!!errors.phone}
             helperText={errors.phone}
+            required
+            aria-label="Phone number"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -247,7 +278,6 @@ export default function Sec2() {
 
           <TextField
             fullWidth
-            required
             variant="standard"
             label="Booking Date"
             type="date"
@@ -256,12 +286,22 @@ export default function Sec2() {
             onChange={handleChange}
             error={!!errors.date}
             helperText={errors.date}
+            required
+            aria-label="Booking date"
+            aria-required="true"
             InputLabelProps={{ style: { color: '#757575' }, shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarTodayIcon sx={{ color: '#757575' }} />
+                </InputAdornment>
+              ),
+            }}
+            disabled={loading}
             sx={{ mb: 2, '& .MuiInput-underline:before': { borderBottom: '1px solid #d3d3d3' } }}
           />
 
           <TextField
-          required
             fullWidth
             variant="standard"
             placeholder="How can we help you? Feel free to get in touch!"
@@ -272,6 +312,10 @@ export default function Sec2() {
             helperText={errors.description}
             multiline
             rows={3}
+            required
+            aria-label="Booking description"
+            aria-required="true"
+            disabled={loading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -283,6 +327,13 @@ export default function Sec2() {
             sx={{ mb: 2, '& .MuiInput-underline:before': { borderBottom: '1px solid #d3d3d3' } }}
           />
 
+          <Typography
+            variant="body1"
+            sx={{ mb: 2, color: '#757575', fontSize: '0.875rem' }}
+          >
+            Service: {formData.categories.join(', ')}
+          </Typography>
+
           <FormControlLabel
             control={
               <Checkbox
@@ -290,6 +341,8 @@ export default function Sec2() {
                 checked={formData.agree}
                 onChange={handleChange}
                 sx={{ color: '#757575' }}
+                required
+                disabled={loading}
               />
             }
             label={
@@ -375,12 +428,10 @@ export default function Sec2() {
             width: 'fit-content',
           }}
         >
-          <IconButton sx={{ color: '#757575' }}>
-            <PhoneIcon />
-          </IconButton>
+          <PhoneIcon sx={{ color: '#757575', mr: 1 }} />
           <Typography
             variant="body1"
-            sx={{ fontWeight: 600, ml: 1 }}
+            sx={{ fontWeight: 600 }}
           >
             1 800 458 56 97
           </Typography>
