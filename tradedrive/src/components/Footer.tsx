@@ -53,77 +53,74 @@ export default function Footer() {
       }}
     >
       {/* Left Section */}
-<Box
-  sx={{
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    mx: { xs: 2, md: 0 },
-    ml: { xs: 2, md: 4 }, // <-- Increased left margin for desktop
-  }}
->
-  <Box sx={{ mb: 2, display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
-    <Image src={logo} alt="Logo" width={180} height={50} />
-  </Box>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          mx: { xs: 2, md: 0 },
+          ml: { xs: 2, md: 4 }, // <-- Increased left margin for desktop
+        }}
+      >
+        <Box sx={{ mb: 2, display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+          <Image src={logo} alt="Logo" width={180} height={50} />
+        </Box>
 
-  <Typography
-    variant="body2"
-    sx={{
-      lineHeight: 1.8,
-      color: "#ccc",
-      maxWidth: 370,
-      mx: { xs: "auto", md: 0 },
-      mb: 2,
-    }}
-  >
-    We started CaReix Imports back in 2015 and by the Grace of Almighty and
-    blessings from our wellwishers, we have come far in the Automotive
-    Industry as Car Importer and Seller. But ever since we entered this
-    line of business.
-  </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            lineHeight: 1.8,
+            color: "#ccc",
+            maxWidth: 370,
+            mx: { xs: "auto", md: 0 },
+            mb: 2,
+          }}
+        >
+          At TradeDrive Auto, we provide expert car care services that keep your vehicle in top shape—inside and out. From smart cosmetic fixes to deep diagnostics, we’ve got it all covered.
+        </Typography>
 
-  <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
-    <IconButton
-      component="a"
-      href="https://www.facebook.com/share/1Aqij2UtLv/?mibextid=wwXIfr"
-      target="_blank"
-      rel="noopener noreferrer"
-      color="inherit"
-    >
-      <FacebookIcon />
-    </IconButton>
-    <IconButton
-      component="a"
-      href="https://wa.me/message/3RPST52EUMRVI1"
-      target="_blank"
-      rel="noopener noreferrer"
-      color="inherit"
-    >
-      <WhatsAppIcon />
-    </IconButton>
-    <IconButton
-      component="a"
-      href="https://www.tiktok.com/@tradedriveautos?is_from_webapp=1&sender_device=pc"
-      target="_blank"
-      rel="noopener noreferrer"
-      color="inherit"
-    >
-      <FaTiktok style={{ fontSize: 20 }} />
-    </IconButton>
-    <IconButton
-      component="a"
-      href="https://www.youtube.com/channel/UCBoErPVRb1tayHjIz2DKM8g"
-      target="_blank"
-      rel="noopener noreferrer"
-      color="inherit"
-    >
-      <YouTubeIcon />
-    </IconButton>
-  </Box>
+        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
+          <IconButton
+            component="a"
+            href="https://www.facebook.com/share/1Aqij2UtLv/?mibextid=wwXIfr"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+          >
+            <FacebookIcon />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://wa.me/message/3RPST52EUMRVI1"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+          >
+            <WhatsAppIcon />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://www.tiktok.com/@tradedriveautos?is_from_webapp=1&sender_device=pc"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+          >
+            <FaTiktok style={{ fontSize: 20 }} />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://www.youtube.com/channel/UCBoErPVRb1tayHjIz2DKM8g"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+          >
+            <YouTubeIcon />
+          </IconButton>
+        </Box>
 
-  <Divider sx={{ mt: 2, bgcolor: "#444", display: { xs: "block", md: "none" } }} />
-</Box>
+        <Divider sx={{ mt: 2, bgcolor: "#444", display: { xs: "block", md: "none" } }} />
+      </Box>
 
 
       {/* Middle Section */}

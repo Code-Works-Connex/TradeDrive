@@ -21,9 +21,8 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import CloseIcon from '@mui/icons-material/Close';
-import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import SvgIcon from '@mui/material/SvgIcon';
 import { useTheme } from '@mui/material/styles';
 import { API_ENDPOINTS } from '../../../src/api';
 
@@ -40,6 +39,30 @@ interface FormErrors {
   phone: string;
   message: string;
 }
+
+const TikTokIcon = (props: any) => (
+  <SvgIcon {...props}>
+    <path d="M16.5 3c0 1.38 1.12 2.5 2.5 2.5v3.05c-1.52-.12-2.94-.7-4.1-1.68V14c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6c.17 0 .34.01.5.03V11c-.17-.03-.33-.05-.5-.05-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V1h3v2z" />
+  </SvgIcon>
+);
+
+const socialLinks = [
+  {
+    icon: <FacebookIcon />,
+    url: 'https://www.facebook.com/share/1Aqij2UtLv/?mibextid=wwXIfr',
+    label: 'Facebook',
+  },
+  {
+    icon: <TikTokIcon />,
+    url: 'https://www.tiktok.com/@tradedriveautos?is_from_webapp=1&sender_device=pc',
+    label: 'TikTok',
+  },
+  {
+    icon: <YouTubeIcon />,
+    url: 'https://www.youtube.com/channel/UCBoErPVRb1tayHjIz2DKM8g',
+    label: 'YouTube',
+  },
+];
 
 export default function Sec2() {
   const theme = useTheme();
@@ -300,15 +323,15 @@ export default function Sec2() {
           </Typography>
 
           <Typography variant="body1" color="text.secondary">
-            785 15h Street, Office 478
+            50F,Sunderland Rd,
             <br />
-            Berlin, De 81566
+            Sandy SG19 1QY
             <br />
-            info@email.com
+            tradedriveautos@gmail.com
           </Typography>
 
           <Typography variant="body1" sx={{ fontWeight: 700, mt: 1 }}>
-            +1 840 841 25 69
+            075 555 94947
           </Typography>
 
           {/* Social Icons */}
@@ -320,21 +343,25 @@ export default function Sec2() {
               mt: 2,
             }}
           >
-            {[<FacebookIcon />, <CloseIcon />, <SportsBasketballIcon />, <InstagramIcon />].map(
-              (icon, i) => (
-                <IconButton
-                  key={i}
-                  sx={{
-                    border: '1px solid #000',
-                    width: 40,
-                    height: 40,
-                    borderRadius: 0,
-                  }}
-                >
-                  {icon}
-                </IconButton>
-              )
-            )}
+            {socialLinks.map(({ icon, url, label }, i) => (
+              <IconButton
+                key={i}
+                component="a"
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                sx={{
+                  border: '1px solid #000',
+                  width: 40,
+                  height: 40,
+                  borderRadius: 0,
+                  color: '#000',
+                }}
+              >
+                {icon}
+              </IconButton>
+            ))}
           </Box>
         </Box>
       </Box>
