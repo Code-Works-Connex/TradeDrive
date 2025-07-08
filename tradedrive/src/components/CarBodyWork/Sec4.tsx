@@ -51,7 +51,7 @@ export default function Sec4() {
         email: '',
         date: '',
         description: '',
-        category: 'Diagnostic ', // Default to 'Diagnostic '
+        category: 'Car Body Work ', // Default to 'Car Body Work '
         status: 'Pending',
         agree: false,
     });
@@ -105,7 +105,7 @@ export default function Sec4() {
                     name: formData.name.trim(),
                     phone: formData.phone.trim(),
                     email: formData.email.trim(),
-                    category: 'Diagnostic ', // Hardcode to 'Diagnostic '
+                    category: 'Car Body Work ', // Hardcode to 'Car Body Work '
                     status: formData.status,
                     date: formData.date ? formData.date : null,
                     description: formData.description.trim() || null,
@@ -125,7 +125,7 @@ export default function Sec4() {
                 email: '',
                 date: '',
                 description: '',
-                category: 'Diagnostic ',
+                category: 'Car Body Work ',
                 status: 'Pending',
                 agree: false,
             });
@@ -215,7 +215,7 @@ export default function Sec4() {
                         textAlign: { xs: 'center', md: 'left' },
                     }}
                 >
-                    Book Your Diagnostic Check Today
+                    Book Your Slot Today
                 </Typography>
 
                 {/* Display success or error messages */}
