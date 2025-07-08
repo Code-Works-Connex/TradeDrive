@@ -79,7 +79,7 @@ export default function Navbar() {
         { text: "MOT Check", href: "/services/mot-check" },
       ],
     },
-    { text: "Blogs", href: "/blogs" }, // ✅ New main nav link
+    { text: "Blogs", href: "/blogs" },
     { text: "Our Work", href: "/our-work" },
     { text: "Contact Us", href: "/contact" },
   ];
@@ -98,12 +98,7 @@ export default function Navbar() {
             transform: "translateX(-50%)",
           }}
         >
-          <Toolbar
-            sx={{
-              justifyContent: { xs: "space-between", md: "flex-start" },
-              alignItems: "center",
-            }}
-          >
+          <Toolbar sx={{ justifyContent: { xs: "space-between", md: "flex-start" }, alignItems: "center" }}>
             <Box sx={{ display: "flex", alignItems: "center", ml: { md: "5%" } }}>
               <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                 <Image
@@ -159,10 +154,21 @@ export default function Navbar() {
                           },
                         }}
                       >
-                        {item.subItems.map((subItem, idx) => (
-                          <React.Fragment key={subItem.href}>
-                            {idx > 0 && <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)" }} />}
+                        {item.subItems.flatMap((subItem, idx) => {
+                          const elements = [];
+
+                          if (idx > 0) {
+                            elements.push(
+                              <Divider
+                                key={`divider-${subItem.href}`}
+                                sx={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+                              />
+                            );
+                          }
+
+                          elements.push(
                             <MenuItem
+                              key={subItem.href}
                               onClick={() => handleMenuClose(item.href.replace("/", ""))}
                               sx={{
                                 py: 1,
@@ -177,8 +183,10 @@ export default function Navbar() {
                                 {subItem.text}
                               </Link>
                             </MenuItem>
-                          </React.Fragment>
-                        ))}
+                          );
+
+                          return elements;
+                        })}
                       </Menu>
                     </>
                   ) : (
@@ -188,10 +196,7 @@ export default function Navbar() {
                         transition: "border-bottom 0.3s ease",
                       }}
                     >
-                      <Link
-                        href={item.href}
-                        style={{ textDecoration: "none", color: "white" }}
-                      >
+                      <Link href={item.href} style={{ textDecoration: "none", color: "white" }}>
                         <Typography
                           sx={{
                             fontSize: { xs: "14px", sm: "14px", md: "16px" },
