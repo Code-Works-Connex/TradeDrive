@@ -21,8 +21,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import wheelImage from '../../../public/images/alloyWheel/alloywheel3.png';
 import { API_ENDPOINTS } from '../../../src/api';
 
-// Define categories array (aligned with backend)
-const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
+// // Define categories array (aligned with backend)
+// const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
 
 interface FormData {
   name: string;

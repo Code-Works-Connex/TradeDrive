@@ -24,7 +24,7 @@ import { API_ENDPOINTS } from '../../../src/api';
 import { List, ListItem, ListItemText } from '@mui/material';
 
 // Define categories array (aligned with backend)
-const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
+// const CATEGORIES = ['Alloy Wheel Rework', 'Dents & Scratches', 'Car Detailing', 'Service & repair', 'Diagnostic', 'MOT check'];
 
 interface FormData {
   name: string;

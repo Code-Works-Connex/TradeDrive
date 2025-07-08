@@ -23,7 +23,7 @@ import wheelImage from '../../../public/images/mot-testing01.jpg';
 import { API_ENDPOINTS } from '../../../src/api';
 
 // Define categories array (only 'MOT Check' for this use case)
-const CATEGORIES = ['MOT Check'];
+// const CATEGORIES = ['MOT Check'];
 
 interface FormData {
   name: string;

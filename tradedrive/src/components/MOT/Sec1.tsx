@@ -18,19 +18,19 @@ export default function Sec1() {
   ];
 
   // Framer Motion variants
-  const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.42, 0, 0.58, 1], // cubic-bezier for easeInOut
-        when: "beforeChildren",
-        staggerChildren: 0.2,
-      },
+ const containerVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.42, 0, 0.58, 1] as [number, number, number, number], // Explicitly type as cubic-bezier
+      when: "beforeChildren",
+      staggerChildren: 0.2,
     },
-  };
+  },
+};
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
