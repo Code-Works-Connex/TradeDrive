@@ -72,7 +72,7 @@ export default function Footer() {
     sx={{
       lineHeight: 1.8,
       color: "#ccc",
-      maxWidth: 320,
+      maxWidth: 370,
       mx: { xs: "auto", md: 0 },
       mb: 2,
     }}
@@ -194,19 +194,19 @@ export default function Footer() {
             50F, Sunderland Road, <br /> Sandy, SG19 1QY
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 4 }}>
+        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 8 }}>
           <Box sx={{ textAlign: "center" }}>
-            <Image src={planeIcon} alt="Sandy" width={50} height={50} />
+            <Image src={planeIcon} alt="Sandy" width={60} height={60} />
             <Typography variant="body1" sx={{ mt: 1 }}>Sandy Station</Typography>
             <Typography variant="caption">4 min</Typography>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Image src={roadIcon} alt="A1" width={50} height={50} />
+            <Image src={roadIcon} alt="A1" width={60} height={60} />
             <Typography variant="body1" sx={{ mt: 1 }}>A1</Typography>
             <Typography variant="caption">2 min</Typography>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Image src={airportIcon} alt="Stansted" width={50} height={50} />
+            <Image src={airportIcon} alt="Stansted" width={60} height={60} />
             <Typography variant="body1" sx={{ mt: 1 }}>Stansted Airport</Typography>
             <Typography variant="caption">55 min</Typography>
           </Box>
