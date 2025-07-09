@@ -200,6 +200,7 @@ export default function Home() {
             p: { xs: 2, md: 2 },
             maxWidth: 600,
             color: '#fff',
+            textAlign: 'justify'
           }}
         >
           <Typography variant="h5" gutterBottom>

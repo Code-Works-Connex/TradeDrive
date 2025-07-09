@@ -53,7 +53,7 @@ export default function Sec2() {
           <br/>
           <br/>
 
-          Having a valid MOT is a legal obligation—not just an optional part of owning a vehicle. In recent years, penalties for driving without an MOT or valid road tax have become more severe. If you're caught, you could face a hefty fine and even receive six penalty points on your licence. Many police vehicles are now equipped with automatic systems connected to the DVLA, allowing them to instantly verify whether your car is taxed, insured, and MOT-certified. Simply put, driving without proper documentation just isn’t worth the risk.
+          Having a valid MOT is a legal obligation not just an optional part of owning a vehicle. In recent years, penalties for driving without an MOT or valid road tax have become more severe. If you're caught, you could face a hefty fine and even receive six penalty points on your licence. Many police vehicles are now equipped with automatic systems connected to the DVLA, allowing them to instantly verify whether your car is taxed, insured, and MOT-certified. Simply put, driving without proper documentation just isn’t worth the risk.
         </Typography>
       </Box>
     </Box>

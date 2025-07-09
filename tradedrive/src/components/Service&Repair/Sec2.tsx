@@ -17,7 +17,7 @@ const services = [
   {
     title: "Logbook & Scheduled Servicing",
     description:
-      "Keep your warranty intact and extend the life of your car with manufacturer-approved servicing.",
+      "Keep your warranty intact and extend the life of your car with manufacturer approved servicing.",
   },
   {
     title: "Oil & Filter Changes",
@@ -93,8 +93,8 @@ export default function Sec2() {
             mb: 6,
           }}
         >
-          At Trade Drive Autos, we offer full-service car care — from maintenance to mechanical repairs.
-          Count on our skilled technicians for trusted, high-quality work.
+          At Trade Drive Autos, we offer full service car care from maintenance to mechanical repairs.
+          Count on our skilled technicians for trusted, high quality work.
         </Typography>
 
         {/* Accordion Grid Container */}
@@ -141,7 +141,7 @@ export default function Sec2() {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography sx={{ color: "#fff" }}>
+                  <Typography sx={{ color: "#fff"  , textAlign: 'justify'}}>
                     {service.description}
                   </Typography>
                 </AccordionDetails>

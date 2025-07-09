@@ -30,7 +30,7 @@ const features = [
     icon: <BuildIcon sx={{ fontSize: 36, color: '#C8102E' }} />,
     title: 'Premium Parts & Tools',
     description:
-      'We use only high-grade components and modern equipment to ensure longevity and reliability with every service.',
+      'We use only high grade components and modern equipment to ensure longevity and reliability with every service.',
   },
 ];
 

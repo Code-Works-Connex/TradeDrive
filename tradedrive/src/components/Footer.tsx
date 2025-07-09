@@ -77,7 +77,7 @@ export default function Footer() {
             mb: 2,
           }}
         >
-          At TradeDrive Auto, we provide expert car care services that keep your vehicle in top shape—inside and out. From smart cosmetic fixes to deep diagnostics, we’ve got it all covered.
+          At TradeDrive Auto, we provide expert car care services that keep your vehicle in top shape inside and out. From smart cosmetic fixes to deep diagnostics, we’ve got it all covered.
         </Typography>
 
         <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
@@ -128,7 +128,7 @@ export default function Footer() {
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 1, mx: { xs: 2, md: 0 } }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
           <PhoneIcon color="error" />
-          <Typography variant="body1">075 555 94947</Typography>
+          <Typography variant="body1">+94 75 555 94947</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
           <EmailIcon color="error" />

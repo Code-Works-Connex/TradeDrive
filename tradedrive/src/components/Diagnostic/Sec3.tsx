@@ -19,7 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Image from 'next/image';
-import bookingImage from '../../../public/images/detailingsec5.png';
+import diagnosticBg from '../../../public/images/banner2dent.jpg';
 import { API_ENDPOINTS } from '../../../src/api';
 import { List, ListItem, ListItemText } from '@mui/material';
 
@@ -169,49 +169,70 @@ export default function Sec3() {
     >
       {/* Left Column - Image and Content */}
       <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center', // horizontal center
-          textAlign: 'center',  // center text as well
-          px: { xs: 2, md: 4 },
-          py: { xs: 4, md: 0 },
-          backgroundColor: 'white',
-        }}
-      >
-        <Typography variant="h4" sx={{ color: "#C8102E", mb: 2 }}>
-          Why Choose Our Diagnostic Services?
-        </Typography>
+  sx={{
+    flex: 1,
+    position: 'relative',       // needed for overlay & image stacking
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    px: { xs: 2, md: 4 },
+    py: { xs: 4, md: 0 },
+    overflow: 'hidden',
+    minHeight: '60vh',
+  }}
+>
+  {/* Background Image */}
+  <Image
+    src={diagnosticBg}
+    alt="Diagnostic Service Background"
+    fill
+    style={{ objectFit: 'cover' }}
+    priority
+  />
 
-        <List sx={{ pl: 1 }}>
-          <ListItem sx={{ py: 0.5 }}>
-            <ListItemText
-              primary="• Latest diagnostic scanners for all vehicle makes & models."
-              primaryTypographyProps={{ sx: { color: 'black' } }}
-            />
-          </ListItem>
-          <ListItem sx={{ py: 0.5 }}>
-            <ListItemText
-              primary="• Experienced technicians who get to the root cause, not just the error code."
-              primaryTypographyProps={{ sx: { color: 'black' } }}
-            />
-          </ListItem>
-          <ListItem sx={{ py: 0.5 }}>
-            <ListItemText
-              primary="• Honest recommendations — we only suggest repairs you actually need."
-              primaryTypographyProps={{ sx: { color: 'black' } }}
-            />
-          </ListItem>
-          <ListItem sx={{ py: 0.5 }}>
-            <ListItemText
-              primary="• Quick turnaround to get you back on the road faster."
-              primaryTypographyProps={{ sx: { color: 'black' } }}
-            />
-          </ListItem>
-        </List>
-      </Box>
+  {/* Dark Overlay */}
+  <Box
+    sx={{
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.75)', // semi-transparent dark overlay
+      zIndex: 1,
+    }}
+  />
+
+  {/* Text Content */}
+  <Box
+    sx={{
+      position: 'relative',
+      zIndex: 2,
+      color: '#fff',            // white text for contrast
+      maxWidth: 600,
+      width: '100%',
+    }}
+  >
+    <Typography variant="h4" sx={{ color: 'red', mb: 2, textAlign: 'center' }}>
+      Why Choose Our Diagnostic Services?
+    </Typography>
+
+    <List sx={{ pl: 2, color: 'white' }}>
+      {[
+        'Latest diagnostic scanners for all vehicle makes & models.',
+        'Experienced technicians who get to the root cause, not just the error code.',
+        'Honest recommendations  we only suggest repairs you actually need.',
+        'Quick turnaround to get you back on the road faster.',
+      ].map((item, index) => (
+        <ListItem key={index} sx={{ py: 0.5 }}>
+          <ListItemText
+            primary={item}
+            primaryTypographyProps={{ sx: { color: 'white' } }}
+          />
+        </ListItem>
+      ))}
+    </List>
+  </Box>
+  </Box>
 
       {/* Right Column - Form */}
       <Box

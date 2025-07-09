@@ -390,6 +390,7 @@ export default function Sec2() {
           bgcolor: '#fff',
           borderRadius: 1,
           boxShadow: 1,
+
         }}
       >
         <Typography
@@ -410,6 +411,7 @@ export default function Sec2() {
             fontWeight: 700,
             mb: 2,
             color: '#000',
+
           }}
         >
           FULL-SERVICE Dents & Scratch Restoration
@@ -417,10 +419,11 @@ export default function Sec2() {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, textAlign: 'justify' }}
         >
-          At Trade Drive, we offer expert dent and scratch repair services designed to restore your vehicle's appearance with precision and care. Whether it's a minor dent, a deep scratch, or paint damage, our skilled technicians use industry-leading techniques and equipment to get your car looking as good as new. We understand that your time is valuable. That's why our process is fast, efficient, and designed to cause as little disruption to your day as possible. Our team works with attention to detail, ensuring high-quality results without unnecessary delays.
+          At Trade Drive, we provide skilled dent and scratch repair services that are intended to carefully and precisely restore the look of your automobile. Whether your automobile has a little dent, a large scratch, or paint damage, our knowledgeable specialists will make it seem like new again using the best tools and methods in the business. We recognise the value of your time. Our procedure is quick, effective, and made to interfere with your day as little as possible because of this. Our staff pays close attention to detail, guaranteeing excellent outcomes without needless delays.
         </Typography>
+
         <Box
           sx={{
             display: 'flex',
@@ -436,7 +439,7 @@ export default function Sec2() {
             variant="body1"
             sx={{ fontWeight: 600 }}
           >
-            1 800 458 56 97
+           075 555 94947
           </Typography>
         </Box>
       </Box>

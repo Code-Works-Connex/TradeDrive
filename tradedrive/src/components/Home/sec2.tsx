@@ -19,7 +19,7 @@ export default function Sec2() {
             image: image2,
             title: 'Dents And Scratures',
             description:
-                'Dents and scratches are vehicle surface damages—dents from impacts, scratches from marks—requiring repair to restore appearance.',
+                'Dents and scratches are vehicle surface damages, dents from impacts, scratches from marks requiring repair to restore appearance.',
         },
         {
             image: image3,
@@ -31,7 +31,7 @@ export default function Sec2() {
             image: image4,
             title: 'Ceramic Coating',
             description:
-                'Ceramic coating is a protective SiO2-based layer for cars that enhances shine, resists scratches and UV damage, and simplifies cleaning.',
+                'Ceramic coating is a protective SiO2 based layer for cars that enhances shine, resists scratches and UV damage, and simplifies cleaning.',
         },
     ];
 

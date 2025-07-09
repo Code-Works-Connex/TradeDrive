@@ -132,7 +132,7 @@ export default function Sectwo() {
             mb: 4,
           }}
         >
-          Providing top-notch spare parts to keep your journey smooth and your vehicle in peak condition. Our commitment is your vehicle's performance.
+       Supplying excellent replacement components to maintain your car in good shape and your trip enjoyable.  The performance of your car is our promise.
         </Typography>
 
         {/* Two Column Flex Row */}
@@ -150,7 +150,7 @@ export default function Sectwo() {
                 Modern Workshop
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' , textAlign: 'justify'}}>
               Equipped with advanced diagnostic tools and genuine spare parts to meet your vehicle’s needs. From repairs to upgrades, we’ve got you covered.
             </Typography>
           </Box>
@@ -162,7 +162,7 @@ export default function Sectwo() {
                 Continues Support
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' , textAlign: 'justify'}}>
               Always here when you need us. Our experts are available around the clock to assist with inquiries, orders, or troubleshooting.
             </Typography>
           </Box>

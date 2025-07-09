@@ -46,10 +46,12 @@ export default function Sec2() {
               lineHeight: 1.6,
             }}
           >
-            Experience the ultimate shine and protection with our professional car detailing services. From deep interior cleaning to precision exterior polishing, we bring back the showroom look while preserving your vehicle’s value and finish. Perfect for every car enthusiast who demands perfection.
+            Our expert automobile detailing services will give your vehicle the best possible gloss and protection.  We restore your car's showroom appearance while maintaining its value and finish, from thorough interior cleaning to expert exterior polishing.  Ideal for any auto enthusiast who expects excellence.
             <br />
             <br />
-            Restore brilliance and protect your investment with our expert car detailing services. From meticulous interior rejuvenation to flawless exterior enhancement, we ensure every inch of your vehicle looks and feels brand new. Ideal for those who take pride in their ride and expect nothing less than excellence.
+            With our professional auto detailing services, you can restore shine and safeguard your investment.  From painstaking external improvement to interior revitalisation, we make sure every part of your car feels and looks like new.  Perfect for people that want nothing less than perfection and take pleasure in their vehicle.
+
+
           </Typography>
         </Box>
       </Box>
@@ -77,7 +79,7 @@ export default function Sec2() {
         />
       </Box>
 
-      
+
     </Box>
   );
 }

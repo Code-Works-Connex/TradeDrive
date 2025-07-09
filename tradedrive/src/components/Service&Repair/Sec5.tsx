@@ -19,7 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Image from 'next/image';
-import bookingImage from '../../../public/images/detailingsec5.png';
+import backgroundImage from '../../../public/images/scheduledServices.png';
 import { API_ENDPOINTS } from '../../../src/api';
 
 // Define categories array (aligned with backend)
@@ -168,28 +168,71 @@ export default function Sec5() {
     >
       {/* Left Column - Content */}
       <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          px: { xs: 2, md: 4 },
-          py: { xs: 4, md: 0 },
-          backgroundColor: 'white',
-        }}
-      >
-        <Typography variant="h4" sx={{ color: '#C8102E', mb: 2 }}>
-          Why Service Your Car With Us?
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'black', mb: 2 }}>
-          • Friendly, experienced mechanics who care about your car.<br />
-          • Honest advice & clear communication — no unnecessary upsells.<br />
-          • Fast turnaround to get you back on the road sooner.<br />
-          • Top-quality parts to protect your investment.
-        </Typography>
-      </Box>
+  sx={{
+    flex: 1,
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    px: { xs: 2, md: 4 },
+    py: { xs: 4, md: 0 },
+    overflow: 'hidden',
+    minHeight: '60vh',
+  }}
+>
+  {/* Background Image */}
+  <Image
+    src={backgroundImage}
+    alt="Service Background"
+    fill
+    style={{ objectFit: 'cover' }}
+    priority
+  />
+
+  {/* Dark Overlay */}
+  <Box
+    sx={{
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.73)',
+      zIndex: 1,
+    }}
+  />
+
+  {/* Text Content */}
+<Box
+  sx={{
+    position: 'relative',
+    zIndex: 2,
+    textAlign: 'left',       // left-align text
+    color: 'rgba(255, 255, 255, 0.9)', // brighter white for better visibility
+    maxWidth: 600,
+    mx: 'auto',              // center the box horizontally
+  }}
+>
+  <Typography variant="h4" sx={{ color: 'red', mb: 3, textAlign: 'center' }}>
+    Why Service Your Car With Us?
+  </Typography>
+
+  {/* Use an unordered list for bullet points */}
+  <Box
+    component="ul"
+    sx={{
+      pl: 3,                // indent bullets
+      fontSize: { xs: '1rem', md: '1.125rem' },
+      lineHeight: 1.6,
+      fontWeight: 500,
+      listStyleType: 'disc',
+      color: 'rgba(255, 255, 255, 0.9)',
+    }}
+  >
+    <li>Friendly, experienced mechanics who care about your car.</li>
+    <li>Honest advice & clear communication, no unnecessary upsells.</li>
+    <li>Fast turnaround to get you back on the road sooner.</li>
+    <li>Top quality parts to protect your investment.</li>
+  </Box>
+</Box>
+</Box>
 
       {/* Right Column - Form */}
       <Box

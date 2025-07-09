@@ -73,9 +73,11 @@ export default function Sec3() {
               maxWidth: 600,
               fontSize: { xs: '1rem', md: '1.15rem' },
               lineHeight: 1.7,
+              textAlign: 'justify' 
             }}
           >
-            At <strong>TradeDrive Auto</strong>, we provide expert car care services that keep your vehicle in top shape—inside and out. From smart cosmetic fixes to deep diagnostics, we’ve got it all covered.
+            
+            We at <strong>TradeDrive Auto</strong> offer professional auto care services to maintain the best possible condition of your automobile, both inside and out.  We can handle everything, from deep diagnostics to clever cosmetic tweaks.
             <br /><br />
             <strong>Our key services:</strong>
             <ul style={{ paddingLeft: '1.2em', marginTop: 8 }}>
@@ -84,7 +86,7 @@ export default function Sec3() {
               <li>Interior & Exterior Detailing</li>
               <li>Servicing & Mechanical Repair</li>
               <li>Vehicle Diagnostics</li>
-              <li>Pre-MOT Inspections</li>
+              <li>Pre MOT Inspections</li>
             </ul>
           </Typography>
 
@@ -102,7 +104,7 @@ export default function Sec3() {
               },
             }}
           >
-            📞 075 555 94947 
+            📞 +94 75 555 94947 
           </Button>
         </Box>
       </motion.div>

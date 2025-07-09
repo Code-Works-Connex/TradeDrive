@@ -10,7 +10,7 @@ export default function Sec3() {
       sx={{
         position: 'relative',
         // width: '100%',
-        height: { xs: '50vh', sm: '50vh', md: '60vh' }, // Adjusted for tablet views
+        height: { xs: '50vh', sm: '50vh', md: '40vh' }, // Adjusted for tablet views
         backgroundImage: `url(${backgroundImage3.src})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -68,7 +68,7 @@ export default function Sec3() {
               fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.875rem' }, // Scaled for tablets
             }}
           >
-            Adipiscing elit, sed do eiusmod
+            {/* Adipiscing elit, sed do eiusmod */}
           </Typography>
         </Box>
 
@@ -104,7 +104,7 @@ export default function Sec3() {
               fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.875rem' }, // Scaled for tablets
             }}
           >
-            Adipiscing elit, sed do eiusmod
+            {/* Adipiscing elit, sed do eiusmod */}
           </Typography>
         </Box>
 
@@ -140,7 +140,7 @@ export default function Sec3() {
               fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.875rem' }, // Scaled for tablets
             }}
           >
-            Adipiscing elit, sed do eiusmod
+            {/* Adipiscing elit, sed do eiusmod */}
           </Typography>
         </Box>
 
@@ -176,7 +176,7 @@ export default function Sec3() {
               fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.875rem' }, // Scaled for tablets
             }}
           >
-            Adipiscing elit, sed do eiusmod
+            {/* Adipiscing elit, sed do eiusmod */}
           </Typography>
         </Box>
       </Box>

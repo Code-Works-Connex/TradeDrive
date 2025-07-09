@@ -171,46 +171,77 @@ export default function Sec4() {
       <Box
         sx={{
           flex: 1,
+          position: 'relative',
           display: 'flex',
-          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          textAlign: 'center',
           px: { xs: 2, md: 4 },
           py: { xs: 4, md: 0 },
-          backgroundColor: 'white',
+          overflow: 'hidden',
+          minHeight: '60vh',
         }}
       >
+        {/* Background Image */}
+        <Image
+          src={bookingImage}
+          alt="Booking Background"
+          fill
+          style={{ objectFit: 'cover' }}
+          priority
+        />
 
-        <Typography
-          variant="h3"
-          sx={{ color: '#C8102E', mb: 4, fontWeight: 'bold' }}
+        {/* Dark Overlay */}
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            zIndex: 1,
+          }}
+        />
+
+        {/* Text Content */}
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            textAlign: 'left',
+            color: '#fff',
+            maxWidth: 600,
+          }}
         >
-          Why Choose Us
-        </Typography>
-        <List sx={{ pl: 1 }}>
-          {[
-            '• Skilled technicians with years of hands-on expertise.',
-            '• Modern tools & eco-friendly paint systems.',
-            '• Transparent estimates & honest timelines.',
-            '• Guaranteed workmanship and customer-focused service.',
-          ].map((text, index) => (
-            <ListItem key={index} sx={{ py: 1 }}>
-              <ListItemText
-                primary={text}
-                primaryTypographyProps={{
-                  sx: {
-                    fontSize: { xs: '1.1rem', md: '1.25rem' },
-                    color: 'black',
-                    fontWeight: 500,
-                    lineHeight: 1.6,
-                  },
-                }}
-              />
-            </ListItem>
-          ))}
-        </List>
+          <Typography
+            variant="h3"
+            sx={{ color: '#fff', mb: 4, fontWeight: 'bold', textAlign: 'center' }}
+          >
+            Why Choose Us
+          </Typography>
+
+          <List sx={{ pl: 1 }}>
+            {[
+              '• Skilled technicians with years of hands-on expertise.',
+              '• Modern tools & eco-friendly paint systems.',
+              '• Transparent estimates & honest timelines.',
+              '• Guaranteed workmanship and customer-focused service.',
+            ].map((text, index) => (
+              <ListItem key={index} sx={{ py: 1 }}>
+                <ListItemText
+                  primary={text}
+                  primaryTypographyProps={{
+                    sx: {
+                      fontSize: { xs: '1.1rem', md: '1.25rem' },
+                      color: '#fff',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                    },
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </Box>
+
 
       {/* Right Column - Form */}
       <Box

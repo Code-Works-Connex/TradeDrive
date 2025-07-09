@@ -34,12 +34,10 @@ export default function Sec2() {
           mx: 'auto',
           mb: 6,
           fontSize: '1.1rem',
+          
         }}
       >
-        At Trade Drive Autos, we combine years of craftsmanship with modern techniques
-        to give your car the attention it deserves. We pride ourselves on honest service,
-        meticulous work, and customer satisfaction. Whether it’s a small scratch or major
-        accident damage, our team treats every vehicle like it’s our own.
+        To provide your automobile the care it needs, we at Trade Drive Autos combine years of experience with cutting-edge methods.  Honest service, careful craftsmanship, and client happiness are things we take great delight in.  Our staff handles each car as if it were our own, regardless of minor dings or significant collision damage.
       </Typography>
 
       <Divider sx={{ bgcolor: '#444', mb: 6 }} />

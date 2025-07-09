@@ -155,19 +155,19 @@ export default function Sec4() {
           sx={{
             color: '#666',
             mb: 3,
-            maxWidth: 500,
+            maxWidth: 600,
             textAlign: { xs: 'center', md: 'left' },
             mx: { xs: 'auto', md: '0' },
           }}
         >
-          Dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+          Our speciality is employing sophisticated tools and exact paint matching to restore your car's body to like-new condition, from little dents to extensive scratches, saving you time and money by avoiding the need to replace whole panels.
         </Typography>
 
         <List dense disablePadding>
           {[
-            'Adipiscing elit, sed do eiusmod',
-            'Tempor incididunt',
-            'Labore et dolore magna',
+            'Free Visual Inspection',
+            'Transparent Estimate',
+            'Final Finish & Quality Check',
           ].map((text, i) => (
             <motion.div
               key={i}
