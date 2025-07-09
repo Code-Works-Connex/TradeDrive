@@ -417,32 +417,33 @@ export default function Sec7() {
                   }}
                 >
                   <TextField
-  fullWidth
-  required
-  name={name}
-  placeholder={label}
-  variant="standard"
-  type={type}
-  value={formData[name]}
-  onChange={handleChange}
-  InputProps={{
-    disableUnderline: true,
-    style: { color: "#fff" },
-  }}
-  sx={{
-    "& input::placeholder": { color: "#fff", opacity: 0.8 },
-    ...(type === "date"
-      ? {
-          '& input[type="date"]::-webkit-calendar-picker-indicator': {
-            filter: 'invert(1)',
-            cursor: 'pointer',
-          },
-        }
-      : {}),
-  }}
-  disabled={loading}
-  InputLabelProps={type === "date" ? { shrink: true } : undefined}
-/>
+                    fullWidth
+                    required
+                    name={name}
+                    placeholder={label}
+                    variant="standard"
+                    type={type}
+                    value={formData[name]}
+                    onChange={handleChange}
+                    InputProps={{
+                      disableUnderline: true,
+                      style: { color: "#fff" },
+                      ...(type === "date" ? { min: new Date().toISOString().split("T")[0] } : {}),
+                    }}
+                    sx={{
+                      "& input::placeholder": { color: "#fff", opacity: 0.8 },
+                      ...(type === "date"
+                        ? {
+                          '& input[type="date"]::-webkit-calendar-picker-indicator': {
+                            filter: 'invert(1)',
+                            cursor: 'pointer',
+                          },
+                        }
+                        : {}),
+                    }}
+                    disabled={loading}
+                    InputLabelProps={type === "date" ? { shrink: true } : undefined}
+                  />
 
                 </Box>
               ))}

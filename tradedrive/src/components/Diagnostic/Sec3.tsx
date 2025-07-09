@@ -169,49 +169,49 @@ export default function Sec3() {
     >
       {/* Left Column - Image and Content */}
       <Box
-                sx={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center', // horizontal center
-                    textAlign: 'center',  // center text as well
-                    px: { xs: 2, md: 4 },
-                    py: { xs: 4, md: 0 },
-                    backgroundColor: 'white',
-                }}
-            >
-                <Typography variant="h4" sx={{ color: "#C8102E", mb: 2 }}>
-                  Why Choose Our Diagnostic Services?
-                </Typography>
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center', // horizontal center
+          textAlign: 'center',  // center text as well
+          px: { xs: 2, md: 4 },
+          py: { xs: 4, md: 0 },
+          backgroundColor: 'white',
+        }}
+      >
+        <Typography variant="h4" sx={{ color: "#C8102E", mb: 2 }}>
+          Why Choose Our Diagnostic Services?
+        </Typography>
 
-                <List sx={{ pl: 1 }}>
-                    <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText
-                            primary="• Latest diagnostic scanners for all vehicle makes & models."
-                            primaryTypographyProps={{ sx: { color: 'black' } }}
-                        />
-                    </ListItem>
-                    <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText
-                            primary="• Experienced technicians who get to the root cause, not just the error code."
-                            primaryTypographyProps={{ sx: { color: 'black' } }}
-                        />
-                    </ListItem>
-                    <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText
-                            primary="• Honest recommendations — we only suggest repairs you actually need."
-                            primaryTypographyProps={{ sx: { color: 'black' } }}
-                        />
-                    </ListItem>
-                    <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText
-                            primary="• Quick turnaround to get you back on the road faster."
-                            primaryTypographyProps={{ sx: { color: 'black' } }}
-                        />
-                    </ListItem>
-                </List>
-            </Box>
+        <List sx={{ pl: 1 }}>
+          <ListItem sx={{ py: 0.5 }}>
+            <ListItemText
+              primary="• Latest diagnostic scanners for all vehicle makes & models."
+              primaryTypographyProps={{ sx: { color: 'black' } }}
+            />
+          </ListItem>
+          <ListItem sx={{ py: 0.5 }}>
+            <ListItemText
+              primary="• Experienced technicians who get to the root cause, not just the error code."
+              primaryTypographyProps={{ sx: { color: 'black' } }}
+            />
+          </ListItem>
+          <ListItem sx={{ py: 0.5 }}>
+            <ListItemText
+              primary="• Honest recommendations — we only suggest repairs you actually need."
+              primaryTypographyProps={{ sx: { color: 'black' } }}
+            />
+          </ListItem>
+          <ListItem sx={{ py: 0.5 }}>
+            <ListItemText
+              primary="• Quick turnaround to get you back on the road faster."
+              primaryTypographyProps={{ sx: { color: 'black' } }}
+            />
+          </ListItem>
+        </List>
+      </Box>
 
       {/* Right Column - Form */}
       <Box
@@ -359,6 +359,9 @@ export default function Sec3() {
                   <CalendarTodayIcon sx={{ color: '#fff' }} />
                 </InputAdornment>
               ),
+            }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
             }}
             sx={{
               mb: 2,

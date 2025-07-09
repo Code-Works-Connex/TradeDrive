@@ -181,7 +181,7 @@ export default function Sec4() {
           backgroundColor: 'white',
         }}
       >
-        
+
         <Typography
           variant="h3"
           sx={{ color: '#C8102E', mb: 4, fontWeight: 'bold' }}
@@ -358,6 +358,9 @@ export default function Sec4() {
                   <CalendarTodayIcon sx={{ color: '#fff' }} />
                 </InputAdornment>
               ),
+            }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
             }}
             sx={{
               mb: 2,

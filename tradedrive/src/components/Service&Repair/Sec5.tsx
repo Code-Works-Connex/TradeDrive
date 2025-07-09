@@ -338,6 +338,9 @@ export default function Sec5() {
                 </InputAdornment>
               ),
             }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
+            }}
             sx={{
               mb: 2,
               input: {

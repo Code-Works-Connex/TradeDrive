@@ -297,6 +297,9 @@ export default function Sec2() {
                 </InputAdornment>
               ),
             }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
+            }}
             disabled={loading}
             sx={{ mb: 2, '& .MuiInput-underline:before': { borderBottom: '1px solid #d3d3d3' } }}
           />

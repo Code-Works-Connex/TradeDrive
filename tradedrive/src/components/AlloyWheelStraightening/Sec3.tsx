@@ -359,6 +359,9 @@ export default function Home() {
                 </InputAdornment>
               ),
             }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
+            }}
             disabled={loading}
             aria-label="Booking date"
             sx={{
