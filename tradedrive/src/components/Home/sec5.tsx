@@ -10,7 +10,7 @@ import { motion, cubicBezier } from 'framer-motion';
 
 const features = [
   {
-    title: 'PREMIUM QUALITY',
+    title: 'PREMIUM AUTO QUALITY',
     description: 'Sed do eiusmod tempor',
     icon: <StarIcon sx={{ fontSize: 40, color: 'white' }} />,
   },
@@ -20,7 +20,7 @@ const features = [
     icon: <AssignmentIcon sx={{ fontSize: 40, color: 'white' }} />,
   },
   {
-    title: 'VERIFIED DRIVERS',
+    title: 'RESTORE THE SHINE',
     description: 'Sed do eiusmod tempor',
     icon: <VerifiedIcon sx={{ fontSize: 40, color: 'white' }} />,
   },
