@@ -79,8 +79,8 @@ const Sec1 = () => {
           fontSize: isXs ? '0.95rem' : '1rem',
         }}
       >
-        Professional bodywork repairs and painting at a convenient location to you.
-        All our work is fully guaranteed and ensures you are delighted with the finish!
+        We offer professional bodywork repairs and painting services at a convenient location for you. 
+        We fully guarantee all of our work, ensuring your satisfaction with the final result!
       </Typography>
 
       {/* Dynamic Image Grid */}

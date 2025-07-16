@@ -36,7 +36,7 @@ export default function Sec2() {
               fontSize: { xs: '1.8rem', sm: '2rem', md: '2.2rem' },
             }}
           >
-            We enhance your vehicles' beauty
+            We enhance your vehicles' beauty.
           </Typography>
           <Typography
             variant="body1"
@@ -46,12 +46,10 @@ export default function Sec2() {
               lineHeight: 1.6,
             }}
           >
-            Our expert automobile detailing services will give your vehicle the best possible gloss and protection.  We restore your car's showroom appearance while maintaining its value and finish, from thorough interior cleaning to expert exterior polishing.  Ideal for any auto enthusiast who expects excellence.
+            Our expert automobile detailing services will give your vehicle the best possible gloss and protection.  We restore your car's showroom appearance while maintaining its value and finish, from thorough interior cleaning to expert exterior polishing.  Our services are ideal for any auto enthusiast who expects excellence.
             <br />
             <br />
-            With our professional auto detailing services, you can restore shine and safeguard your investment.  From painstaking external improvement to interior revitalisation, we make sure every part of your car feels and looks like new.  Perfect for people that want nothing less than perfection and take pleasure in their vehicle.
-
-
+            With our professional auto detailing services, you can restore shine and safeguard your investment.  From painstaking external improvements to interior revitalisation, we make sure every part of your car feels and looks new.  Our services are ideal for individuals who strive for excellence and derive pleasure from their car.
           </Typography>
         </Box>
       </Box>
@@ -78,8 +76,6 @@ export default function Sec2() {
           }}
         />
       </Box>
-
-
     </Box>
   );
 }

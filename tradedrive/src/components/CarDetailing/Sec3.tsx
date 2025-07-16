@@ -54,7 +54,7 @@ export default function Sec3() {
     'Interior Surfaces Cleaned',
     'Seats and Carpets Deep Cleaned',
     'Steam Clean Interior Surfaces',
-    'Pedals and Controls Cleaned',
+    'Pedals and controls are being cleaned.',
     'Glass Polished',
     'Paper Protection Mats',
     'Air Freshener',
@@ -84,12 +84,12 @@ export default function Sec3() {
   const addOns = [
     {
       title: 'PAINT CORRECTION (3 Stage Machine Polish)',
-      description: 'We aim to remove any swirls and minor scratches and restore the deep gloss. Can only be added to the Full Valet.',
+      description: 'We aim to remove any swirls and minor scratches and restore the deep gloss. It can only be added to the Full Valet.',
       price: '£300',
     },
     {
       title: 'PAINT CORRECTION (1 Step Machine Polish)',
-      description: 'Removing any light imperfections from the paintwork and increasing the deep gloss. Can only be added to the Full Valet.',
+      description: 'The process involves eliminating any minor flaws in the paint job and enhancing the shine. It can only be added to the Full Valet.',
       price: '£95',
     },
     {

@@ -13,17 +13,17 @@ export default function Sec3() {
     {
       icon: motCheckIcon,
       title: "MOT Check",
-      description: "MOT Checks are a legal requirement for all vehicles in the UK that are over 3 years old.",
+      description: "MOT checks are a legal requirement for all vehicles in the UK that are over 3 years old.",
     },
     {
       icon: numberSearchIcon,
       title: "Simple Number Plate Search",
-      description: "Enter your vehicle registration number online and click search",
+      description: "Enter your vehicle registration number online and click search.",
     },
     {
       icon: viewResultsIcon,
       title: "View Results",
-      description: "View Instant results on the current and historical status of your vehicle",
+      description: "View instant results on the current and historical status of your vehicle",
     },
   ];
 

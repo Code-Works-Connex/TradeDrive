@@ -22,9 +22,9 @@ export default function Sec4() {
           lineHeight: 1.3,
         }}
       >
-        Expert auto detailers dedicated to excellence, innovation, and quality service for{' '}
+        Our team of expert auto detailers is committed to excellence, innovation, and quality service for{' '}
         <Box component="span" sx={{ color: '#2979ff' }}>
-          every car, everywhere
+          every car, everywhere.
         </Box>
       </Typography>
 
