@@ -11,15 +11,15 @@ export default function Sec2() {
     const items = [
         {
             image: image1,
-            title: 'Alloy Wheels Straightning',
+            title: 'Alloy Wheels Straightening',
             description:
-                'Alloy wheel straightening repairs bent wheels from impacts using hydraulic machines and heat, restoring shape, safety, and saving replacement costs.',
+                'Alloy wheel straightening repairs bent wheels from impacts using hydraulic machines and heat, restoring shape and safety, and saving replacement costs.',
         },
         {
             image: image2,
-            title: 'Dents And Scratures',
+            title: 'Dents And Scratches',
             description:
-                'Dents and scratches are vehicle surface damages, dents from impacts, scratches from marks requiring repair to restore appearance.',
+                'Dents and scratches are vehicle surface damages: dents from impacts and scratches from marks requiring repair to restore appearance.',
         },
         {
             image: image3,

@@ -484,7 +484,7 @@ export default function Sec7() {
                   <Divider sx={{ borderColor: "#444", mb: 1 }} />
                   {[
                     { label: "Alloy Wheel Rework", key: "alloy" },
-                    { label: "Dents & Scratches", key: "dents" },
+                    { label: "Dent & Scratches", key: "dents" },
                     { label: "Car Detailing", key: "detailing" },
                   ].map((item) => (
                     <FormControlLabel

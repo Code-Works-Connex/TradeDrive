@@ -132,7 +132,7 @@ export default function Sectwo() {
             mb: 4,
           }}
         >
-       Supplying excellent replacement components to maintain your car in good shape and your trip enjoyable.  The performance of your car is our promise.
+       We provide top-notch replacement parts to keep your car in excellent condition and make your journey enjoyable. The performance of your car is our promise.
         </Typography>
 
         {/* Two Column Flex Row */}
@@ -151,7 +151,7 @@ export default function Sectwo() {
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' , textAlign: 'justify'}}>
-              Equipped with advanced diagnostic tools and genuine spare parts to meet your vehicle’s needs. From repairs to upgrades, we’ve got you covered.
+              We are equipped with advanced diagnostic tools and genuine spare parts to meet your vehicle's needs. From repairs to upgrades, we’ve got you covered.
             </Typography>
           </Box>
 
@@ -159,11 +159,11 @@ export default function Sectwo() {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <AccessTimeIcon sx={{ color: '#C8102E', fontSize: 40 }} />
               <Typography variant="h6" sx={{ ml: 2, fontWeight: 'bold', color: 'white' }}>
-                Continues Support
+                Continued Support
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.7)' , textAlign: 'justify'}}>
-              Always here when you need us. Our experts are available around the clock to assist with inquiries, orders, or troubleshooting.
+              We are always here when you need us. Our experts are available around the clock to assist with enquiries, orders, or troubleshooting.
             </Typography>
           </Box>
         </Box>

@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import { motion, cubicBezier } from 'framer-motion';
 
 const features = [
@@ -19,9 +20,9 @@ const features = [
     icon: <AssignmentIcon sx={{ fontSize: 40, color: 'white' }} />,
   },
   {
-    title: 'LICENSE & INSURANCE',
+    title: 'VERIFIED DRIVERS',
     description: 'Sed do eiusmod tempor',
-    icon: <AssignmentIcon sx={{ fontSize: 40, color: 'white' }} />,
+    icon: <VerifiedIcon sx={{ fontSize: 40, color: 'white' }} />,
   },
   {
     title: 'RANGE OF SERVICE',
@@ -89,7 +90,7 @@ export default function Sec5() {
                 <Typography variant="h6" sx={{ color: 'white', fontWeight: 700 }}>
                   {feature.title}
                 </Typography>
-                <Typography sx={{ color: '#aaa', mt: 1 }}>{feature.description}</Typography>
+                {/* <Typography sx={{ color: '#aaa', mt: 1 }}>{feature.description}</Typography> */}
                 <Box mt={2} display="flex" justifyContent="center" gap={0.7}>
                   {[...Array(3)].map((_, i) => (
                     <Box
