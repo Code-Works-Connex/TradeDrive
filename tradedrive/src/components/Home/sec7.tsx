@@ -59,9 +59,9 @@ const CATEGORY_MAPPING: Record<CategoryKey, string> = {
   alloy: "Alloy Wheel Rework",
   dents: "Dents & Scratches",
   detailing: "Car Detailing",
-  service: "Service & repair",
+  service: "Service & Repair",
   diagnostic: "Diagnostic",
-  mot: "MOT check",
+  mot: "MOT Check",
 };
 
 // Server action: Create booking
@@ -69,7 +69,6 @@ async function createBooking(
   booking: Omit<Booking, 'id' | 'createdAt' | 'booking_id'>
 ): Promise<Booking> {
   try {
-    console.log('Creating booking with:', booking);
     const response = await fetch(`${API_BASE_URL}/bookings/web`, {
       method: 'POST',
       headers: {
@@ -97,7 +96,6 @@ async function createB2BResponse(
   response: Omit<B2BResponse, 'id' | 'createdAt'>
 ): Promise<B2BResponse> {
   try {
-    console.log('Creating B2B response with:', response);
     const apiResponse = await fetch(`${API_BASE_URL}/b2b-responses`, {
       method: 'POST',
       headers: {
@@ -157,18 +155,17 @@ export default function Sec7() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log(`Updated ${name}:`, value); // Debug input changes
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setFormData((prev) => {
       const newCategories = { ...prev.categories, [name]: checked };
-      console.log('Updated categories:', newCategories); // Debug category changes
       return { ...prev, categories: newCategories };
     });
   };
 
+  // Open modal and reset form data
   const handleModalOpen = (type: "book" | "contact") => {
     setErrorMsg('');
     setSuccessMsg('');
@@ -208,11 +205,6 @@ export default function Sec7() {
       date: formData.date.trim(),
     };
 
-    // Debug form data
-    console.log('Form data on submit:', { ...trimmedData, categories: formData.categories });
-    console.log('Email valid:', emailRegex.test(trimmedData.email));
-    console.log('Categories selected:', Object.values(formData.categories).some((checked) => checked));
-
     // Validate required fields
     if (!isContact && !trimmedData.name) {
       setErrorMsg('Name is required.');
@@ -241,9 +233,13 @@ export default function Sec7() {
     if (!isContact) {
       const selectedDate = new Date(trimmedData.date);
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0); // Normalize to start of day
+      if (isNaN(selectedDate.getTime())) {
+        setErrorMsg('Invalid date format.');
+        return;
+      }
       if (selectedDate < today) {
-        setErrorMsg('Date must be today or in the future.');
+        setErrorMsg('Selected date cannot be in the past.');
         return;
       }
     }
@@ -268,7 +264,7 @@ export default function Sec7() {
           status: 'New',
         };
         await createB2BResponse(b2bData);
-        setOpenContactModal(false); // Close contact modal
+        setOpenContactModal(false);
       } else {
         const bookingData: Omit<Booking, 'id' | 'createdAt' | 'booking_id'> = {
           name: trimmedData.name,
@@ -280,7 +276,7 @@ export default function Sec7() {
           description: 'Booking submitted via website',
         };
         await createBooking(bookingData);
-        setOpenBookModal(false); // Close booking modal
+        setOpenBookModal(false);
       }
 
       // Reset form and open success modal
@@ -307,6 +303,12 @@ export default function Sec7() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Function to get today's date in YYYY-MM-DD format
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
   };
 
   const renderFormModal = (type: "book" | "contact") => {
@@ -390,17 +392,6 @@ export default function Sec7() {
                 </Alert>
               )}
 
-              {/* Debug: Show form validation status */}
-              {/* {isContact && (
-                <Box sx={{ mb: 2, color: '#fff', fontSize: '0.8rem' }}>
-                  <Typography>Debug - Button disabled: {isButtonDisabled ? 'Yes' : 'No'}</Typography>
-                  <Typography>Company valid: {trimmedData.company ? 'Yes' : 'No'}</Typography>
-                  <Typography>Email valid: {trimmedData.email && emailRegex.test(trimmedData.email) ? 'Yes' : 'No'}</Typography>
-                  <Typography>Phone valid: {trimmedData.phone ? 'Yes' : 'No'}</Typography>
-                  <Typography>Categories selected: {Object.values(formData.categories).some((checked) => checked) ? 'Yes' : 'No'}</Typography>
-                </Box>
-              )} */}
-
               {([
                 ...(isContact
                   ? [{ label: "Company Name *", name: "company" as const, type: "text" as const }]
@@ -428,7 +419,24 @@ export default function Sec7() {
                     InputProps={{
                       disableUnderline: true,
                       style: { color: "#fff" },
-                      ...(type === "date" ? { min: new Date().toISOString().split("T")[0] } : {}),
+                      ...(type === "date" ? {
+                        min: getMinDate(),
+                        inputProps: {
+                          min: getMinDate(),
+                          // Prevent manual entry of past dates
+                          onKeyDown: (e: React.KeyboardEvent) => {
+                            if (e.key === 'Enter') {
+                              const inputDate = new Date((e.target as HTMLInputElement).value);
+                              const today = new Date();
+                              today.setHours(0, 0, 0, 0);
+                              if (inputDate < today) {
+                                e.preventDefault();
+                                setErrorMsg('Selected date cannot be in the past.');
+                                setTimeout(() => setErrorMsg(''), 3000);
+                              }
+                            }
+                          },
+                        }} : {}),
                     }}
                     sx={{
                       "& input::placeholder": { color: "#fff", opacity: 0.8 },
@@ -438,13 +446,15 @@ export default function Sec7() {
                             filter: 'invert(1)',
                             cursor: 'pointer',
                           },
+                          '& input[type="date"]': {
+                            colorScheme: 'dark',
+                          },
                         }
                         : {}),
                     }}
                     disabled={loading}
                     InputLabelProps={type === "date" ? { shrink: true } : undefined}
                   />
-
                 </Box>
               ))}
 
@@ -511,9 +521,9 @@ export default function Sec7() {
                   </Typography>
                   <Divider sx={{ borderColor: "#444", mb: 1 }} />
                   {[
-                    { label: "Service & repair", key: "service" },
+                    { label: "Service & Repair", key: "service" },
                     { label: "Diagnostic", key: "diagnostic" },
-                    { label: "MOT check", key: "mot" },
+                    { label: "MOT Check", key: "mot" },
                   ].map((item) => (
                     <FormControlLabel
                       key={item.key}
@@ -550,7 +560,7 @@ export default function Sec7() {
                     backgroundColor: "#eee",
                   },
                   "&:disabled": {
-                    backgroundColor: "#aaa",
+                    BACKGROUNDColor: "#aaa",
                     color: "#666",
                   },
                 }}

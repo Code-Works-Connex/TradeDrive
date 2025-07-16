@@ -6,8 +6,8 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TradeDrive',
-  description: 'A trading platform built with Next.js',
+  title: 'Trade Drive Auto',
+  description: 'Trade Drive Auto is your trusted car service and repair center, offering expert diagnostics, maintenance, and repairs for all vehicle types. Book your service online and experience reliable automotive care.',
 };
 
 export default function RootLayout({

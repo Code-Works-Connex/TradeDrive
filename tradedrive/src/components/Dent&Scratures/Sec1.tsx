@@ -49,7 +49,7 @@ export default function Page() {
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)', // Adds contrast on smaller screens
         }}
       >
-        DENTS & SCRATURES
+        DENTS & SCRATCHES
       </Typography>
     </Box>
   );
