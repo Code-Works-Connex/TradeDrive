@@ -73,7 +73,7 @@ export default function Sec1() {
                         lineHeight: 1.2,
                     }}
                 >
-                    Discover the ultimate car care experience
+                    Discover the ultimate car care experience.
                 </Typography>
 
             </Box>

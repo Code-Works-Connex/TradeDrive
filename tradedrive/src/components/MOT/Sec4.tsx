@@ -205,7 +205,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h5" gutterBottom>
-            A valid and up-to-date MOT certificate can make a big difference when selling or trading in your vehicle. It gives potential buyers confidence that the car has been properly maintained and is in good condition. On the flip side, failing to keep your MOT current can reduce resale value and raise questions about your car’s upkeep.
+            A valid and up-to-date MOT certificate can make a big difference when selling or trading in your vehicle. It instills confidence in potential buyers that the car has undergone proper maintenance and is in good condition. On the flip side, failing to keep your MOT current can reduce resale value and raise questions about your car’s upkeep.
           </Typography>
         </Box>
       </Box>

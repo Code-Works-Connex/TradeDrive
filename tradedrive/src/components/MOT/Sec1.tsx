@@ -7,14 +7,14 @@ import bgImage from "../../../public/images/motBanner.jpg";
 
 export default function Sec1() {
   const bulletPointsLeft = [
-    "Check the MOT, Tax & Vehicle stats of any UK reg plate.",
+    "Check the MOT, tax & vehicle statistics of any UK reg plate.",
     "Receive email and SMS reminders before your vehicle tax & MOT expire.",
     "Receive up to 25% back when you book your MOT online with Check Mot.",
   ];
 
   const bulletPointsRight = [
-    "Comprehensive vehicle reports from within your dashboard.",
-    "Sell your vehicle via Check Mot and receive additional cash back.",
+    "You can access comprehensive vehicle reports from within your dashboard.",
+    "Sell your vehicle via Check MOT and receive additional cashback.",
   ];
 
   // Framer Motion variants
